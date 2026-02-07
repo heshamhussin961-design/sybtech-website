@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SybTech | خدماتنا</title>
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="static/images/favicon.png" alt="SybTech Logo"
+                    style="height: 45px; width: auto; vertical-align: middle;">
+                <span style="margin-right: 10px; font-size: 1.5rem; font-weight: 900; color: #fff;">Syb<span
+                        style="background: linear-gradient(135deg, #00f3ff, #bc13fe); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Tech</span></span>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav_home">الرئيسية</a></li>
+            <li><a href="services.html" class="active" data-i18n="nav_services">الخدمات</a></li>
+            <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>
+            <li><a href="contact.html" class="btn-primary" data-i18n="nav_contact">اتصل بنا</a></li>
+            <li><button id="langToggle"
+                    style="background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;"
+                    onmouseover="this.style.background='var(--primary)'; this.style.color='#000'"
+                    onmouseout="this.style.background='transparent'; this.style.color='var(--primary)'">EN</button></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1 data-i18n="services_title">خدماتنا التقنية</h1>
+        <p style="color:#aaa;" data-i18n="services_subtitle">حلول متكاملة لتنمية أعمالك</p>
+    </div>
+
+    <div class="services-container">
+        <!-- Card 1: Website Development -->
+        <div class="service-card">
+            <i class="fa-solid fa-globe"></i>
+            <h3 data-i18n="service1_title">تطوير المواقع الإلكترونية</h3>
+            <p data-i18n="service1_desc">مواقع احترافية عالية الأداء مصممة خصيصاً لعملك. نبني تجارب رقمية سريعة، آمنة،
+                ومتجاوبة مع جميع الأجهزة باستخدام أحدث التقنيات.</p>
+            <a href="contact.html" class="service-btn"><span data-i18n="service_btn">اطلب الخدمة</span> <i
+                    class="fa-solid fa-arrow-left"></i></a>
+        </div>
+
+        <!-- Card 2: Web & Mobile App Bundle -->
+        <div class="service-card">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <h3 data-i18n="service2_title">باقة الويب والتطبيق</h3>
+            <p data-i18n="service2_desc">حزمة متكاملة تشمل موقع ويب احترافي + تطبيق موبايل أصلي (Android & iOS). حل شامل
+                لتواجد رقمي قوي يربط عملاءك بخدماتك في كل مكان.</p>
+            <a href="contact.html" class="service-btn"><span data-i18n="service_btn">اطلب الخدمة</span> <i
+                    class="fa-solid fa-arrow-left"></i></a>
+        </div>
+
+        <!-- Card 3: Full System Architecture -->
+        <div class="service-card">
+            <i class="fa-solid fa-building"></i>
+            <h3 data-i18n="service3_title">هندسة الأنظمة الكاملة</h3>
+            <p data-i18n="service3_desc">أنظمة إدارية داخلية متكاملة (ERP, CRM) مصممة خصيصاً لمؤسستك. نبني حلول ذكية
+                لإدارة الموارد، العملاء، والعمليات بكفاءة عالية.</p>
+            <a href="contact.html" class="service-btn"><span data-i18n="service_btn">اطلب الخدمة</span> <i
+                    class="fa-solid fa-arrow-left"></i></a>
+        </div>
+
+        <!-- Card 4: Automation & AI -->
+        <div class="service-card">
+            <i class="fa-solid fa-robot"></i>
+            <h3 data-i18n="service4_title">الأتمتة والذكاء الاصطناعي</h3>
+            <p data-i18n="service4_desc">أتمتة ذكية للمهام المتكررة وسير العمل. نوفر لك حلول AI لتقليل التكاليف، زيادة
+                الإنتاجية، وتحويل البيانات إلى قرارات استراتيجية.</p>
+            <a href="contact.html" class="service-btn"><span data-i18n="service_btn">اطلب الخدمة</span> <i
+                    class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+    <footer class="footer-cyber">
+        <div class="footer-container">
+
+            <div class="footer-section">
+                <div class="footer-logo">
+                    Syb<span>Tech</span>
+                </div>
+                <p data-i18n="footer_desc">نحن نصنع المستقبل الرقمي. وكالة برمجيات متخصصة في الذكاء الاصطناعي وحلول
+                    الويب المتقدمة.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3 data-i18n="footer_links_title">روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html" data-i18n="nav_home">الرئيسية</a></li>
+                    <li><a href="services.html" data-i18n="nav_services">الخدمات</a></li>
+                    <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>
+                    <li><a href="contact.html" data-i18n="nav_contact">ابدأ مشروعك</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3 data-i18n="footer_social_title">تابعنا على</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-btn linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-btn instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p data-i18n="footer_copyright">© 2026 SybTech. All Systems Operational 🟢</p>
+        </div>
+    </footer>
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>

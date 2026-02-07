@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SybTech | المستقبل الرقمي</title>
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="static/images/favicon.png" alt="SybTech Logo"
+                    style="height: 45px; width: auto; vertical-align: middle;">
+                <span style="margin-right: 10px; font-size: 1.5rem; font-weight: 900; color: #fff;">Syb<span
+                        style="background: linear-gradient(135deg, #00f3ff, #bc13fe); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Tech</span></span>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active" data-i18n="nav_home">الرئيسية</a></li>
+            <li><a href="services.html" data-i18n="nav_services">الخدمات</a></li>
+            <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>
+            <li><a href="contact.html" class="btn-primary" data-i18n="nav_contact">اتصل بنا</a></li>
+            <li><button id="langToggle"
+                    style="background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;"
+                    onmouseover="this.style.background='var(--primary)'; this.style.color='#000'"
+                    onmouseout="this.style.background='transparent'; this.style.color='var(--primary)'">EN</button></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="glitch-text"><span data-i18n="hero_title">حول خيالك إلى</span> <br> <span style="color:#00f3ff"
+                    data-i18n="hero_highlight">واقع رقمي</span></h1>
+            <p data-i18n="hero_desc">نحن لا نبني مجرد مواقع، نحن نبني أنظمة ذكية تدير أعمالك وتزيد أرباحك باستخدام أحدث
+                تقنيات الذكاء
+                الاصطناعي.</p>
+            <a href="contact.html" class="btn-glow" data-i18n="hero_cta">ابدأ مشروعك الآن</a>
+        </div>
+        <div class="hero-image">
+            <i class="fa-solid fa-globe fa-spin"
+                style="font-size: 250px; color: rgba(0, 243, 255, 0.1); --fa-animation-duration: 20s;"></i>
+        </div>
+    </header>
+    <footer class="footer-cyber">
+        <div class="footer-container">
+
+            <div class="footer-section">
+                <div class="footer-logo">
+                    Syb<span>Tech</span>
+                </div>
+                <p data-i18n="footer_desc">نحن نصنع المستقبل الرقمي. وكالة برمجيات متخصصة في الذكاء الاصطناعي وحلول
+                    الويب المتقدمة.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3 data-i18n="footer_links_title">روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html" data-i18n="nav_home">الرئيسية</a></li>
+                    <li><a href="services.html" data-i18n="nav_services">الخدمات</a></li>
+                    <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>
+                    <li><a href="contact.html" data-i18n="nav_contact">ابدأ مشروعك</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3 data-i18n="footer_social_title">تابعنا على</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-btn linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-btn instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p data-i18n="footer_copyright">© 2026 SybTech. All Systems Operational 🟢</p>
+        </div>
+    </footer>
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SybTech | تواصل معنا</title>
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="static/images/favicon.png" alt="SybTech Logo"
+                    style="height: 45px; width: auto; vertical-align: middle;">
+                <span style="margin-right: 10px; font-size: 1.5rem; font-weight: 900; color: #fff;">Syb<span
+                        style="background: linear-gradient(135deg, #00f3ff, #bc13fe); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Tech</span></span>
+            </a>
+        </div>
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav_home">الرئيسية</a></li>
+            <li><a href="services.html" data-i18n="nav_services">الخدمات</a></li>
+            <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>
+            <li><a href="contact.html" class="active btn-primary" data-i18n="nav_contact">اتصل بنا</a></li>
+            <li><button id="langToggle"
+                    style="background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;"
+                    onmouseover="this.style.background='var(--primary)'; this.style.color='#000'"
+                    onmouseout="this.style.background='transparent'; this.style.color='var(--primary)'">EN</button></li>
+        </ul>
+    </nav>
+
+    <section class="contact-section">
+        <div class="contact-header">
+            <h2 class="highlight" data-i18n="contact_title">جاهز للتحول الرقمي؟</h2>
+            <p data-i18n="contact_subtitle">املأ البيانات وسيقوم فريق SybTech بالرد عليك بتحليل مبدئي لمشروعك خلال 24
+                ساعة.</p>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="info-box">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <h3 data-i18n="contact_location_title">المقر الرئيسي</h3>
+                        <p data-i18n="contact_location_text">دبي، الإمارات العربية المتحدة</p>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div>
+                        <h3 data-i18n="contact_email_title">البريد الإلكتروني</h3>
+                        <p data-i18n="contact_email_text">info@sybtech.ae</p>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <div>
+                        <h3 data-i18n="contact_whatsapp_title">تواصل مباشر</h3>
+                        <a href="#" style="color:#00f3ff;" data-i18n="contact_whatsapp_text">تواصل عبر واتساب فوراً
+                            ←</a>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+
+                <h3 style="margin-bottom: 20px; color: #fff; font-size: 1.2rem;" data-i18n="contact_form_title">Initiate
+                    Contact Protocol //</h3>
+
+                <div class="input-group">
+                    <input type="text" name="name" id="name" placeholder=" " required>
+                    <label data-i18n="form_name">الاسم بالكامل</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="tel" name="phone" id="phone" placeholder=" " required>
+                    <label data-i18n="form_phone">رقم الهاتف</label>
+                </div>
+
+                <div class="input-group">
+                    <select name="service" id="service" required>
+                        <option value="" disabled selected data-i18n-value="form_service">نوع الخدمة المطلوبة</option>
+                        <option value="Website Development" data-i18n-value="form_service_opt1">تطوير المواقع
+                            الإلكترونية</option>
+                        <option value="Web & Mobile App Bundle" data-i18n-value="form_service_opt2">باقة الويب والتطبيق
+                        </option>
+                        <option value="Full System Architecture" data-i18n-value="form_service_opt3">هندسة الأنظمة
+                            الكاملة (ERP/CRM)</option>
+                        <option value="Automation & AI" data-i18n-value="form_service_opt4">الأتمتة والذكاء الاصطناعي
+                        </option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-glow" data-i18n="form_submit">إرسال البيانات (Transmit)</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer-cyber">
+        <div class="footer-container">
+
+            <div class="footer-section">
+                <div class="footer-logo">
+                    Syb<span>Tech</span>
+                </div>
+                <p data-i18n="footer_desc">نحن نصنع المستقبل الرقمي. وكالة برمجيات متخصصة في الذكاء الاصطناعي وحلول
+                    الويب المتقدمة.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3 data-i18n="footer_links_title">روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html" data-i18n="nav_home">الرئيسية</a></li>
+                    <li><a href="services.html" data-i18n="nav_services">الخدمات</a></li>
+                    <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>
+                    <li><a href="contact.html" data-i18n="nav_contact">ابدأ مشروعك</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3 data-i18n="footer_social_title">تابعنا على</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-btn linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-btn instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p data-i18n="footer_copyright">© 2026 SybTech. All Systems Operational 🟢</p>
+        </div>
+    </footer>
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>

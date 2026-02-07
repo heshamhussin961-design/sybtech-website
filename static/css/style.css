@@ -1,0 +1,1138 @@
+/* =========================================
+   1. المتغيرات والأساسيات (Global Variables)
+   ========================================= */
+:root {
+    /* ألوان النيون الأساسية */
+    --primary: #00f3ff;
+    /* أزرق سماوي مشع */
+    --secondary: #bc13fe;
+    /* بنفسجي فضائي */
+    --accent: #ff2cdf;
+    /* وردي ليزري */
+
+    /* الخلفيات */
+    --bg-dark: #020617;
+    /* أسود الفضاء العميق */
+    --card-bg: rgba(15, 23, 42, 0.6);
+    /* خلفية الكروت الزجاجية */
+    --border-light: rgba(255, 255, 255, 0.08);
+
+    /* التدرجات اللونية */
+    --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+    --gradient-glow: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, transparent 70%);
+
+    /* الخطوط */
+    --font-main: 'Cairo', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: var(--font-main);
+    color: #fff;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* =========================================
+   2. الخلفية الفضائية المتحركة (Space Background)
+   ========================================= */
+.background-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    background: radial-gradient(circle at 50% 50%, rgba(20, 20, 50, 0.4), transparent 80%);
+}
+
+/* شبكة النجوم المتحركة */
+.background-glow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+        radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px);
+    background-size: 80px 80px, 150px 150px;
+    opacity: 0.15;
+    animation: starsMove 120s linear infinite;
+}
+
+@keyframes starsMove {
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: -1000px 1000px, -500px 500px;
+    }
+}
+
+/* =========================================
+   3. الناف بار الزجاجي (Glass Navbar)
+   ========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(2, 6, 23, 0.7);
+    /* شفافية */
+    backdrop-filter: blur(16px);
+    /* تغبيش الخلفية (Glass Effect) */
+    border-bottom: 1px solid var(--border-light);
+    transition: 0.3s ease;
+}
+
+.logo a {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff !important;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    position: relative;
+    z-index: 1001;
+}
+
+.logo span {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+    font-weight: 900;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #cbd5e1;
+    font-weight: 700;
+    font-size: 1.05rem;
+    position: relative;
+    transition: 0.3s;
+    padding: 5px 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+    text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+}
+
+/* الخط اللي بيتحرك تحت اللينك */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    right: 0;
+    background: var(--gradient-primary);
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+    left: 0;
+    /* حركة انسيابية */
+}
+
+/* زر القائمة الموبايل (الهامبرغر) */
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.line {
+    width: 28px;
+    height: 3px;
+    background: #fff;
+    margin: 6px;
+    border-radius: 5px;
+    transition: 0.4s;
+}
+
+/* تنسيق الموبايل */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        height: 100vh;
+        background: rgba(2, 6, 23, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.5s ease;
+        border-left: 1px solid var(--primary);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+}
+
+/* =========================================
+   4. الهيرو سكشن (الصفحة الرئيسية)
+   ========================================= */
+.hero {
+    min-height: 90vh;
+    /* يغطي الشاشة */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    position: relative;
+    overflow: hidden;
+    /* عشان لو فيه أنيميشن طلع برا */
+}
+
+/* تنسيق النصوص */
+.hero-content {
+    max-width: 650px;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    /* خط ضخم */
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: #fff;
+    font-weight: 800;
+    animation: slideUp 1s ease-out;
+}
+
+/* كلمة "واقع رقمي" الملونة */
+.glitch-text span {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--primary);
+    /* حواف مفرغة */
+    position: relative;
+    display: inline-block;
+}
+
+.glitch-text span::before {
+    content: 'واقع رقمي';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--primary);
+    opacity: 0.6;
+    animation: glitch 3s infinite alternate;
+    filter: drop-shadow(0 0 10px var(--primary));
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: #94a3b8;
+    margin-bottom: 40px;
+    line-height: 1.8;
+    max-width: 550px;
+    animation: slideUp 1.2s ease-out;
+}
+
+/* الأيقونة العائمة الكبيرة */
+.hero-image {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image i {
+    font-size: 300px;
+    /* أيقونة عملاقة */
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 50px rgba(188, 19, 254, 0.3));
+    /* توهج بنفسجي */
+    animation: floatImage 6s ease-in-out infinite;
+}
+
+/* زر "ابدأ مشروعك" المشع */
+.btn-glow {
+    display: inline-block;
+    padding: 15px 40px;
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.btn-glow:hover {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 50px var(--primary);
+    /* توهج قوي جداً عند اللمس */
+    transform: translateY(-5px);
+}
+
+/* =========================================
+   5. الأنيميشن (Keyframes)
+   ========================================= */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatImage {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-30px) rotate(5deg);
+    }
+}
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+        opacity: 0.6;
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+        opacity: 0.8;
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+        opacity: 0.6;
+    }
+}
+
+/* تحسين للموبايل */
+@media (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        padding-top: 50px;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-image i {
+        font-size: 180px;
+        margin-top: 40px;
+    }
+
+    .hero p {
+        margin: 0 auto 30px;
+    }
+}
+
+/* =========================================
+   6. قسم الخدمات وكروت السايبر (Cyber Cards) - التصميم الأفقي
+   ========================================= */
+.page-header {
+    text-align: center;
+    padding: 80px 20px 40px;
+    animation: slideUp 0.8s ease-out;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+    margin-bottom: 10px;
+}
+
+/* الحاوية اللي بتشيل الكروت - خليناها Grid عشان يبقوا جنب بعض */
+.services-container {
+    display: grid;
+    /* يخلي الكروت جنب بعض، وكل كارت ياخد مساحة متساوية */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    /* مسافة بين الكروت */
+    padding: 40px 5%;
+    /* قللنا الهوامش الجانبية شوية عشان يكفوا */
+    margin-bottom: 80px;
+    max-width: 1400px;
+    /* أقصى عرض عشان ميبعدوش أوي في الشاشات الكبيرة */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* تصميم الكارت نفسه */
+.service-card {
+    background: rgba(15, 23, 42, 0.5);
+    /* خلفية زجاجية */
+    padding: 40px 30px;
+    /* تعديل الحشو الداخلي */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    /* 👇 دي أهم حاجة للأنيميشن الناعم */
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.4s ease,
+        border-color 0.4s ease,
+        background 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--primary);
+    /* خط ملون تحت الكارت */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* توسيط المحتوى */
+    text-align: center;
+}
+
+/* عنصر اللمعة (الشعاع) */
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    /* يبدأ من بره الكارت على الشمال */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+    transition: 0.6s;
+    z-index: 1;
+}
+
+/* تأثير الهوفر (لما الماوس ييجي عليه) 🔥 */
+.service-card:hover {
+    /* يكبر لفوق وينتفخ شوية (حركة مرنة) */
+    transform: translateY(-15px) scale(1.05);
+    border-color: var(--secondary);
+    /* يغير لون الحدود للبنفسجي */
+    /* ظل قوي ومتوهج */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(188, 19, 254, 0.2);
+    background: rgba(15, 23, 42, 0.7);
+    /* تغميق بسيط للخلفية */
+    z-index: 10;
+    /* يطلع فوق أي حاجة جنبه */
+}
+
+/* تحريك شعاع اللمعة */
+.service-card:hover::before {
+    left: 100%;
+    /* يتحرك لليمين ويعدي الكارت */
+}
+
+/* الأيقونة */
+.service-card i {
+    font-size: 55px;
+    margin-bottom: 25px;
+    display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.3));
+    transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* حركة الأيقونة في الهوفر */
+.service-card:hover i {
+    transform: scale(1.2) rotate(-10deg);
+    /* تكبر وتلف شوية */
+    color: var(--secondary);
+    filter: drop-shadow(0 0 20px rgba(188, 19, 254, 0.5));
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.service-card p {
+    color: #94a3b8;
+    line-height: 1.7;
+    font-size: 1rem;
+    flex-grow: 1;
+    /* عشان الزرار يبقى دايماً تحت */
+}
+
+/* تخصيص ألوان الكروت المختلفة */
+/* الكارت التاني (بنفسجي) */
+.service-card:nth-child(2) {
+    border-bottom-color: #bd00ff;
+}
+
+.service-card:nth-child(2) i {
+    color: #bd00ff;
+    filter: drop-shadow(0 0 15px rgba(189, 0, 255, 0.3));
+}
+
+/* الكارت التالت (أخضر) */
+.service-card:nth-child(3) {
+    border-bottom-color: #00ff88;
+}
+
+.service-card:nth-child(3) i {
+    color: #00ff88;
+    filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.3));
+}
+
+/* =========================================
+   7. تحديثات صفحة من نحن (About Us Upgrade)
+   ========================================= */
+
+/* 1. عنوان جليتش */
+.glitch-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    position: relative;
+    color: #fff;
+    text-shadow: 2px 2px var(--secondary);
+}
+
+/* 2. مربعات الإحصائيات (HUD Stats) */
+.stats-grid {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.stat-box {
+    background: rgba(15, 23, 42, 0.8);
+    padding: 20px;
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.stat-box h2 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 800;
+}
+
+/* 3. الصورة والتأثير الضوئي (Scanner Visual) */
+.about-visual {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.about-visual i {
+    font-size: 150px;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.scanner-line {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: var(--primary);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scan 3s linear infinite;
+    top: 0;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+/* 4. شريط التقنيات المتحرك (Tech Marquee) */
+.tech-marquee {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.tech-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+}
+
+.tech-track span {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    margin: 0 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tech-track span i {
+    color: var(--primary);
+    margin-left: 5px;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(50%);
+    }
+
+    /* بيتحرك للنص لأننا مكررين العناصر */
+}
+
+/* تحسين للموبايل */
+@media (max-width: 768px) {
+    .stats-grid {
+        flex-direction: column;
+    }
+
+    .tech-marquee {
+        position: relative;
+        margin-top: 50px;
+    }
+
+    /* عشان م يغطيش المحتوى */
+}
+
+/* =========================================
+   8. صفحة اتصل بنا (Contact Form Styling)
+   ========================================= */
+.contact-section {
+    padding: 60px 10%;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* صناديق المعلومات الجانبية */
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.info-box {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+}
+
+.info-box:hover {
+    background: rgba(0, 243, 255, 0.05);
+    border-color: var(--primary);
+    transform: translateX(-5px);
+}
+
+.info-box i {
+    font-size: 26px;
+    color: var(--primary);
+}
+
+.info-box h3 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.info-box p {
+    font-size: 0.95rem;
+    color: #94a3b8;
+}
+
+/* تنسيق الفورم (Inputs & Labels) */
+.contact-form {
+    flex: 1.5;
+    min-width: 350px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 35px;
+}
+
+/* تحويل الخانات لخطوط فقط (Modern Line Style) */
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    color: #fff;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #334155;
+    outline: none;
+    transition: 0.3s;
+    font-family: var(--font-main);
+}
+
+/* لون الـ Select */
+.input-group select option {
+    background-color: #0f172a;
+    color: #fff;
+}
+
+/* حركة عند التركيز (Focus Animation) */
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border-bottom-color: var(--primary);
+    box-shadow: 0 4px 10px -5px rgba(0, 243, 255, 0.3);
+}
+
+/* الليبل المتحرك */
+.input-group label {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    color: #64748b;
+    pointer-events: none;
+    transition: 0.3s;
+    font-size: 1rem;
+}
+
+/* رفع الليبل عند الكتابة */
+.input-group input:focus~label,
+.input-group textarea:focus~label,
+.input-group select:focus~label,
+.input-group input:valid~label,
+.input-group textarea:valid~label,
+.input-group select:valid~label {
+    top: -20px;
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* =========================================
+   9. الفوتر (Footer)
+   ========================================= */
+.footer {
+    text-align: center;
+    padding: 30px;
+    color: #475569;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+    margin-top: 50px;
+}
+
+/* للموبايل */
+@media (max-width: 768px) {
+
+    .about-container,
+    .contact-container {
+        flex-direction: column;
+    }
+
+    .stats-grid {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .about-image i {
+        font-size: 150px;
+        padding: 40px;
+        margin-top: 30px;
+    }
+}
+
+/* =========================================
+   10. أزرار كروت الخدمات (New Service Buttons)
+   ========================================= */
+.service-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    /* خلفية شفافة */
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* حركة عند الهوفر */
+.service-btn:hover {
+    background: var(--primary);
+    color: #000 !important;
+    /* النص يسود عشان يبان */
+    box-shadow: 0 0 20px var(--primary);
+    transform: translateY(-3px);
+}
+
+/* تخصيص هوفر للألوان المختلفة (عشان الزرار البنفسجي والاخضر ينوروا بلونهم) */
+.service-card:nth-child(2) .service-btn:hover {
+    background: var(--secondary);
+    box-shadow: 0 0 20px var(--secondary);
+    border-color: var(--secondary);
+}
+
+.service-card:nth-child(3) .service-btn:hover {
+    background: #00ff88;
+    box-shadow: 0 0 20px #00ff88;
+    border-color: #00ff88;
+}
+
+.service-btn i {
+    font-size: 0.8rem;
+    margin-right: 5px;
+    margin-bottom: 0;
+    /* عشان مياخدش مسافة الأيقونات الكبيرة */
+    display: inline;
+    color: inherit;
+    /* ياخد نفس لون الكلام */
+    filter: none;
+    transition: transform 0.3s;
+}
+
+.service-btn:hover i {
+    transform: translateX(-5px);
+    /* السهم يتحرك للشمال */
+    color: #000;
+}
+
+/* =========================================
+   11. الفوتر الفضائي (Cyber Footer)
+   ========================================= */
+.footer-cyber {
+    background: rgba(2, 6, 23, 0.95);
+    border-top: 1px solid var(--primary);
+    padding: 60px 0 0;
+    margin-top: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* خط ليزر فوق الفوتر */
+.footer-cyber::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 10%;
+    gap: 40px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* اللوجو في الفوتر */
+.footer-logo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.footer-logo span {
+    color: var(--primary);
+}
+
+.footer-section p {
+    color: #94a3b8;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.footer-section h3 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+/* خط صغير تحت العنوان */
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    /* right عشان عربي */
+    width: 30px;
+    height: 2px;
+    background: var(--secondary);
+}
+
+/* الروابط */
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #cbd5e1;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.footer-links a::before {
+    content: '›';
+    margin-left: 10px;
+    color: var(--primary);
+    font-size: 1.2rem;
+    line-height: 0;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+    transform: translateX(-5px);
+}
+
+/* أيقونات السوشيال ميديا */
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-btn {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* تأثيرات خاصة لكل منصة عند الهوفر */
+.social-btn:hover {
+    transform: translateY(-5px) rotate(360deg);
+}
+
+.social-btn.facebook:hover {
+    background: #1877f2;
+    border-color: #1877f2;
+    box-shadow: 0 0 20px #1877f2;
+}
+
+.social-btn.twitter:hover {
+    background: #000;
+    border-color: #fff;
+    box-shadow: 0 0 20px #fff;
+}
+
+.social-btn.linkedin:hover {
+    background: #0077b5;
+    border-color: #0077b5;
+    box-shadow: 0 0 20px #0077b5;
+}
+
+.social-btn.instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-color: #dc2743;
+    box-shadow: 0 0 20px #dc2743;
+}
+
+/* حقوق النشر */
+.footer-bottom {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 50px;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   BILINGUAL SUPPORT (RTL/LTR)
+   ========================================= */
+
+/* RTL specific adjustments */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .nav-links {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-links a::before {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+[dir="rtl"] .service-btn i {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+[dir="rtl"] .service-btn:hover i {
+    transform: translateX(5px);
+}
+
+/* LTR specific adjustments */
+[dir="ltr"] {
+    text-align: left;
+}
+
+[dir="ltr"] .hero {
+    flex-direction: row-reverse;
+}
+
+[dir="ltr"] .nav-links a::after {
+    left: 0;
+    right: auto;
+}
+
+[dir="ltr"] .footer-links a::before {
+    content: '›';
+    margin-right: 10px;
+    margin-left: 0;
+    transform: rotate(180deg);
+}
+
+[dir="ltr"] .info-box:hover {
+    transform: translateX(5px);
+}
+
+[dir="ltr"] .input-group label {
+    right: auto;
+    left: 0;
+}
+
+/* Logo visibility fix */
+.logo {
+    z-index: 1001;
+}
+
+.logo a {
+    display: inline-block;
+    color: #fff !important;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
