@@ -151,6 +151,10 @@ function applyLanguage(lang) {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
+    // Update body class for CSS-based hero section visibility
+    document.body.classList.remove('lang-ar', 'lang-en');
+    document.body.classList.add(`lang-${lang}`);
+
     // Update all elements with data-i18n attribute
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
@@ -249,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = {
                 embeds: [{
                     title: '🚀 طلب جديد من موقع SybTech',
-                    color: 0x00f3ff,
+                    color: 0x00e1ff,
                     fields: [
                         {
                             name: '👤 الاسم',
