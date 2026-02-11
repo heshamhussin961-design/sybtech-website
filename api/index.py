@@ -259,16 +259,6 @@ if __name__ == '__main__':
     print("💚 Health check: GET /api/health")
     print("=" * 50)
     
-# ... (كل الكود اللي فات زي ما هو) ...
-
-# المسار ده مهم جداً لـ Vercel
-@app.route('/')
-def home():
-    return "SybTech Backend is Running!"
-
-# السطر ده هو اللي Vercel بيدور عليه
+# Export for Vercel serverless function
+# This is the entry point that Vercel looks for
 app = app
-
-# امسح أو عطل الجزء ده لأنه بيعمل مشاكل في Vercel
-# if __name__ == "__main__":
-#    app.run()
