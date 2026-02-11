@@ -8,12 +8,15 @@
   ],
   "routes": [
     {
+      "src": "/chat",
+      "dest": "/app.py",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
       "src": "/(.*)",
-      "dest": "/app.py"
+      "dest": "/$1"
     }
-  ],
-  "env": {
-    "OPENAI_API_KEY": "@openai_api_key",
-    "DISCORD_WEBHOOK_URL": "@discord_webhook_url"
-  }
+  ]
 }
