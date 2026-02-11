@@ -3,8 +3,8 @@
  * SybTech Global AI Sales Chat Widget
  * Premium Edition - Production Ready
  * ============================================
- * WARNING: API KEY IS EXPOSED IN CLIENT-SIDE
- * This is for TESTING ONLY. In production, use a backend proxy!
+ * Secure Backend Architecture
+ * All API keys protected via Flask backend
  * ============================================
  */
 
@@ -15,9 +15,7 @@
     // Configuration
     // ============================================
     const CONFIG = {
-        openAiApiKey: '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',
-        discordWebhook: 'https://discord.com/api/webhooks/1469691760627159060/FENuip5jSBTIspNBNgqXErcNhC3cn5Z7473b1BVPMf8DEqIKDITbsnKFuR5vC214zvig',
-        model: 'gpt-4o-mini',
+        backendUrl: '/chat', // Local Flask backend endpoint
         storageKey: 'sybtech_chat_session' // Using sessionStorage instead of localStorage
     };
 
@@ -709,26 +707,27 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
             this.showTypingIndicator();
 
             try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                const response = await fetch(CONFIG.backendUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${CONFIG.openAiApiKey}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: CONFIG.model,
-                        messages: this.conversationHistory,
-                        temperature: 0.8,
-                        max_tokens: 500
+                        messages: this.conversationHistory
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API Error: ${response.status}`);
+                    throw new Error(`Backend Error: ${response.status}`);
                 }
 
                 const data = await response.json();
-                const assistantMessage = data.choices[0].message.content;
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                const assistantMessage = data.message;
 
                 this.conversationHistory.push({
                     role: 'assistant',
@@ -764,40 +763,30 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
             this.showTypingIndicator();
 
             try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                const response = await fetch(CONFIG.backendUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${CONFIG.openAiApiKey}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: CONFIG.model,
-                        messages: this.conversationHistory,
-                        temperature: 0.8,
-                        max_tokens: 500
+                        messages: this.conversationHistory
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API Error: ${response.status}`);
+                    throw new Error(`Backend Error: ${response.status}`);
                 }
 
                 const data = await response.json();
-                let assistantMessage = data.choices[0].message.content;
 
-                // Check for LEAD_CAPTURED tag
-                const leadRegex = /\[LEAD_CAPTURED\]\s*({.*?})/;
-                const match = assistantMessage.match(leadRegex);
-
-                if (match) {
-                    try {
-                        const leadData = JSON.parse(match[1]);
-                        assistantMessage = assistantMessage.replace(leadRegex, '').trim();
-                        await this.sendToDiscord(leadData);
-                    } catch (e) {
-                        console.error('Error parsing lead data:', e);
-                    }
+                if (data.error) {
+                    throw new Error(data.error);
                 }
+
+                const assistantMessage = data.message;
+
+                // Lead capture is now handled server-side
+                // The backend strips the [LEAD_CAPTURED] tag automatically
 
                 this.conversationHistory.push({
                     role: 'assistant',
@@ -856,62 +845,8 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
             this.elements.typingIndicator.classList.add('sybtech-hidden');
         }
 
-        async sendToDiscord(leadData) {
-            try {
-                const embed = {
-                    title: '🎯 عميل جديد من الموقع!',
-                    color: 0x00D4FF,
-                    fields: [
-                        {
-                            name: '👤 الاسم',
-                            value: leadData.name || 'غير محدد',
-                            inline: true
-                        },
-                        {
-                            name: '📱 رقم التليفون',
-                            value: leadData.phone || 'غير محدد',
-                            inline: true
-                        },
-                        {
-                            name: '💼 الخدمة المهتم بها',
-                            value: leadData.service || 'غير محدد',
-                            inline: false
-                        },
-                        {
-                            name: '🌐 الصفحة',
-                            value: window.location.href,
-                            inline: false
-                        },
-                        {
-                            name: '⏰ الوقت',
-                            value: new Date().toLocaleString('ar-EG', { timeZone: 'Asia/Dubai' }),
-                            inline: false
-                        }
-                    ],
-                    footer: {
-                        text: 'SybTech Chat Widget - Powered by AI'
-                    },
-                    timestamp: new Date().toISOString()
-                };
-
-                await fetch(CONFIG.discordWebhook, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: 'SybTech Sales Bot',
-                        avatar_url: 'https://i.imgur.com/4M34hi2.png',
-                        embeds: [embed]
-                    })
-                });
-
-                console.log('✅ Lead sent to Discord successfully!');
-
-            } catch (error) {
-                console.error('❌ Error sending to Discord:', error);
-            }
-        }
+        // Discord integration moved to backend for security
+        // Lead capture is automatically handled server-side
     }
 
     // ============================================
