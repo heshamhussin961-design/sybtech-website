@@ -15,7 +15,7 @@
     // Configuration
     // ============================================
     const CONFIG = {
-        backendUrl: '/chat', // Local Flask backend endpoint
+        backendUrl: '/api/chat', // Correct Flask backend endpoint
         storageKey: 'sybtech_chat_session' // Using sessionStorage instead of localStorage
     };
 
