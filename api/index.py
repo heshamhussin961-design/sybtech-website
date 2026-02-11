@@ -259,5 +259,16 @@ if __name__ == '__main__':
     print("💚 Health check: GET /api/health")
     print("=" * 50)
     
-    # Run Flask app (Local development only)
-    app.run(debug=True, host='0.0.0.0', port=5000)
+# ... (كل الكود اللي فات زي ما هو) ...
+
+# المسار ده مهم جداً لـ Vercel
+@app.route('/')
+def home():
+    return "SybTech Backend is Running!"
+
+# السطر ده هو اللي Vercel بيدور عليه
+app = app
+
+# امسح أو عطل الجزء ده لأنه بيعمل مشاكل في Vercel
+# if __name__ == "__main__":
+#    app.run()
