@@ -239,26 +239,5 @@ def health():
     }), 200
 
 
-# Vercel serverless function handler
-def handler(request, context):
-    """Vercel serverless function entry point"""
-    return app(request, context)
+# Vercel automatically detects 'app'
 
-
-if __name__ == '__main__':
-    print("=" * 50)
-    print("🚀 SybTech Secure Backend Starting...")
-    print("=" * 50)
-    print("✅ Environment variables loaded")
-    print("✅ OpenAI API Key configured")
-    print("✅ Discord Webhook configured")
-    print("✅ Model: gpt-4o-mini")
-    print("=" * 50)
-    print("🌐 Server running at: http://localhost:5000")
-    print("📡 Chat endpoint: POST /api/chat")
-    print("💚 Health check: GET /api/health")
-    print("=" * 50)
-    
-# Export for Vercel serverless function
-# This is the entry point that Vercel looks for
-app = app
