@@ -1435,3 +1435,308 @@ html:not([lang]) .en-content {
         transform: translateX(100%);
     }
 }
+
+/* =========================================
+   HYBRID RESPONSIVE PWA DESIGN
+   Desktop (>768px): Normal Desktop Website
+   Mobile (≤768px): Native App Layout
+   ========================================= */
+
+/* =========================================
+   MOBILE BOTTOM NAVIGATION BAR
+   (Hidden on Desktop, Visible on Mobile)
+   ========================================= */
+.mobile-bottom-nav {
+    display: none;
+    /* Hidden by default (desktop) */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 2px solid var(--primary);
+    padding: 8px 0;
+    z-index: 1000;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: all 0.3s;
+    flex: 1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    min-height: 60px;
+}
+
+.mobile-bottom-nav .nav-item i {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    transition: all 0.3s;
+}
+
+.mobile-bottom-nav .nav-item span {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.mobile-bottom-nav .nav-item.active,
+.mobile-bottom-nav .nav-item:hover {
+    color: var(--primary);
+    background: rgba(0, 225, 255, 0.1);
+}
+
+.mobile-bottom-nav .nav-item.active i,
+.mobile-bottom-nav .nav-item:hover i {
+    transform: scale(1.2);
+    text-shadow: 0 0 15px var(--primary);
+}
+
+/* =========================================
+   iOS SAFE AREAS & PWA ENHANCEMENTS
+   ========================================= */
+:root {
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+}
+
+/* Prevent overscroll/bounce on iOS */
+html {
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    overscroll-behavior: none;
+}
+
+/* Disable text selection on buttons */
+button,
+.btn-glow,
+.btn-primary,
+.nav-links a,
+.service-btn,
+.social-btn {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE DESIGN (≤768px)
+   Transform to Native App Layout
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* ===== SHOW MOBILE BOTTOM NAV ===== */
+    .mobile-bottom-nav {
+        display: flex !important;
+        padding-bottom: calc(8px + var(--safe-area-inset-bottom));
+    }
+
+    /* ===== HIDE DESKTOP NAVBAR ===== */
+    .navbar {
+        display: none !important;
+    }
+
+    /* ===== ADJUST BODY FOR BOTTOM NAV ===== */
+    body {
+        padding-bottom: 70px;
+        /* Space for bottom nav */
+    }
+
+    /* ===== HERO SECTION MOBILE OPTIMIZATION ===== */
+    .hero {
+        min-height: 70vh;
+        padding: 60px 20px 40px;
+        flex-direction: column;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .hero-image {
+        display: none;
+        /* Hide large decorative icon on mobile */
+    }
+
+    /* ===== SERVICES GRID TO SINGLE COLUMN ===== */
+    .services-container {
+        grid-template-columns: 1fr;
+        padding: 30px 15px;
+        gap: 20px;
+    }
+
+    .service-card {
+        padding: 30px 20px;
+    }
+
+    /* ===== ABOUT PAGE MOBILE ===== */
+    .about-container {
+        flex-direction: column;
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    .about-visual {
+        width: 100%;
+        height: 250px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* ===== CONTACT PAGE MOBILE ===== */
+    .contact-container {
+        flex-direction: column;
+        padding: 20px 15px;
+        gap: 30px;
+    }
+
+    .contact-info,
+    .contact-form {
+        width: 100%;
+    }
+
+    .contact-form {
+        padding: 25px 20px;
+    }
+
+    /* ===== FOOTER COMPACT MODE ===== */
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .footer-section {
+        flex: none;
+        width: 100%;
+    }
+
+    .footer-cyber {
+        padding-bottom: calc(100px + var(--safe-area-inset-bottom));
+    }
+
+    /* ===== PAGE HEADERS ===== */
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    /* ===== BUTTONS MOBILE OPTIMIZATION ===== */
+    .btn-glow,
+    .service-btn {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        min-height: 48px;
+    }
+
+    /* ===== TECH MARQUEE ===== */
+    .tech-marquee {
+        display: none;
+        /* Hide on mobile to save space */
+    }
+}
+
+/* ===== EXTRA SMALL MOBILE (≤480px) ===== */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.7rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .contact-form h3 {
+        font-size: 1rem;
+    }
+
+    .mobile-bottom-nav .nav-item {
+        padding: 6px 8px;
+        min-height: 55px;
+    }
+
+    .mobile-bottom-nav .nav-item i {
+        font-size: 1.3rem;
+    }
+
+    .mobile-bottom-nav .nav-item span {
+        font-size: 0.65rem;
+    }
+}
+
+/* ===== LANDSCAPE MODE ON MOBILE ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        min-height: auto;
+        padding: 30px 20px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* ===== PWA STANDALONE MODE ===== */
+@media (display-mode: standalone) {
+    body {
+        padding-top: var(--safe-area-inset-top);
+    }
+
+    .mobile-bottom-nav {
+        padding-bottom: calc(8px + var(--safe-area-inset-bottom));
+    }
+
+    .navbar {
+        padding-top: calc(15px + var(--safe-area-inset-top));
+    }
+}
+
+/* ===== DESKTOP MODE (>768px) - KEEP EVERYTHING AS IS ===== */
+@media (min-width: 769px) {
+
+    /* Mobile bottom nav stays hidden */
+    .mobile-bottom-nav {
+        display: none !important;
+    }
+
+    /* All existing desktop styles remain active */
+    .navbar {
+        display: flex !important;
+    }
+}

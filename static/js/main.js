@@ -302,3 +302,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+// ============================================
+// MOBILE BOTTOM NAV: AI CHAT BUTTON HANDLER
+// ============================================
+const mobileChatBtn = document.getElementById('mobileChatBtn');
+if (mobileChatBtn) {
+    mobileChatBtn.addEventListener('click', () => {
+        // Trigger the existing SybTech chat widget
+        // The chat widget button is injected by sybtech-chat.js
+        const chatOpenBtn = document.getElementById('sybtechChatBtn');
+        if (chatOpenBtn) {
+            chatOpenBtn.click();
+        }
+    });
+}
+
+// ============================================
+// PWA SERVICE WORKER REGISTRATION
+// ============================================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {
+                console.log('✅ PWA Service Worker registered:', registration.scope);
+
+                // Check for updates every hour
+                setInterval(() => {
+                    registration.update();
+                }, 3600000);
+            })
+            .catch((error) => {
+                console.error('❌ SW registration failed:', error);
+            });
+    });
+}
+
+// ============================================
+// PWA INSTALL PROMPT (ADD TO HOME SCREEN)
+// ============================================
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar
+    e.preventDefault();
+
+    // Store the event for later use
+    deferredPrompt = e;
+
+    console.log('💾 PWA install prompt available');
+
+    // You can show a custom install button here
+    // showInstallButton();
+});
+
+// Track successful installation
+window.addEventListener('appinstalled', (e) => {
+    console.log('🎉 PWA installed successfully!');
+    deferredPrompt = null;
+});
+
+// Check if running as installed PWA
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('📱 Running as installed PWA');
+}

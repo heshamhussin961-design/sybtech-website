@@ -1,0 +1,539 @@
+/* ========================================
+   PWA NATIVE APP STYLES
+   ======================================== */
+
+:root {
+    /* iOS Safe Area Variables */
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+    
+    /* App Colors */
+    --primary-color: #06b6d4;
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+}
+
+/* ========================================
+   GLOBAL RESET & BASE
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+}
+
+/* Prevent pull-to-refresh and bounce on iOS */
+html {
+    overscroll-behavior-y: contain;
+}
+
+/* ========================================
+   APP CONTAINER
+   ======================================== */
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    height: calc(100vh - var(--safe-area-inset-top));
+    overflow: hidden;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    padding-top: calc(1rem + var(--safe-area-inset-top));
+    background: var(--bg-dark);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.header-btn:active {
+    transform: scale(0.95);
+    opacity: 0.7;
+}
+
+.header-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg-dark);
+    padding-bottom: calc(80px + var(--safe-area-inset-bottom));
+}
+
+.content-wrapper {
+    padding: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   ACTION CARDS (HOME)
+   ======================================== */
+
+.action-card {
+    background: var(--bg-card);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-card:active {
+    transform: scale(0.95);
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.action-card span {
+    color: var(--text-primary);
+}
+
+/* ========================================
+   ACTIVITY ITEMS
+   ======================================== */
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   CHAT UI
+   ======================================== */
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 180px);
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.chat-message.bot {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    align-self: flex-start;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.chat-message.user {
+    background: var(--primary-color);
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    bottom: 0;
+}
+
+.chat-input {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    outline: none;
+}
+
+.chat-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.send-btn {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.send-btn:active {
+    transform: scale(0.9);
+}
+
+/* ========================================
+   PROFILE
+   ======================================== */
+
+.profile-avatar {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 3px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-card);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+}
+
+.profile-menu-item:active {
+    transform: scale(0.98);
+    background: rgba(6, 182, 212, 0.1);
+}
+
+/* ========================================
+   SETTINGS
+   ======================================== */
+
+.settings-section {
+    background: var(--bg-card);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item.clickable {
+    cursor: pointer;
+}
+
+.settings-item.clickable:active {
+    opacity: 0.7;
+}
+
+/* Toggle Switch */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 28px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #334155;
+    transition: 0.3s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle input:checked + .toggle-slider {
+    background-color: var(--primary-color);
+}
+
+.toggle input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+/* Install Button */
+.install-button {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1rem;
+}
+
+.install-button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+/* ========================================
+   BOTTOM NAVIGATION
+   ======================================== */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--bg-card);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0;
+    padding-bottom: calc(0.5rem + var(--safe-area-inset-bottom));
+    z-index: 100;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+}
+
+.nav-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.nav-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   RESPONSIVE & PWA OPTIMIZATIONS
+   ======================================== */
+
+@media (max-width: 375px) {
+    .nav-label {
+        font-size: 0.625rem;
+    }
+    
+    .content-wrapper {
+        padding: 1rem;
+    }
+}
+
+/* PWA Splash Screen Support */
+@media (display-mode: standalone) {
+    body {
+        padding-top: var(--safe-area-inset-top);
+    }
+}
+
+/* Landscape Mode Adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .app-header {
+        padding: 0.5rem 1rem;
+    }
+    
+    .main-content {
+        padding-bottom: 70px;
+    }
+    
+    .bottom-nav {
+        padding: 0.25rem 0;
+    }
+}
+
+/* ========================================
+   LOADING & ANIMATIONS
+   ======================================== */
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+
+.main-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}

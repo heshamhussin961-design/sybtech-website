@@ -4,8 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#00e1ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SybTech">
+    <meta name="description" content="SybTech Services | Web Development, Mobile Apps, AI Solutions">
+
     <title>SybTech | خدماتنا</title>
     <link rel="icon" type="image/png" href="static/images/favicon.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/static/images/favicon.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="static/css/style.css">
@@ -122,6 +135,31 @@
             <p data-i18n="footer_copyright">© 2026 SybTech. All Systems Operational 🟢</p>
         </div>
     </footer>
+
+    <!-- Mobile Bottom Navigation (Hidden on Desktop) -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fa-solid fa-home"></i>
+            <span data-i18n="nav_home">الرئيسية</span>
+        </a>
+        <a href="services.html" class="nav-item active">
+            <i class="fa-solid fa-briefcase"></i>
+            <span data-i18n="nav_services">الخدمات</span>
+        </a>
+        <button class="nav-item" id="mobileChatBtn">
+            <i class="fa-solid fa-comments"></i>
+            <span>AI</span>
+        </button>
+        <a href="about.html" class="nav-item">
+            <i class="fa-solid fa-info-circle"></i>
+            <span data-i18n="nav_about">من نحن</span>
+        </a>
+        <a href="contact.html" class="nav-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span data-i18n="nav_contact">اتصل</span>
+        </a>
+    </nav>
+
     <script src="static/js/main.js"></script>
     <!-- SybTech AI Sales Chat Widget -->
     <script src="static/js/sybtech-chat.js"></script>
