@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // 3. Discord Webhook Integration for Contact Form
+    // 3. Contact Form Integration - SECURE BACKEND SUBMISSION
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
@@ -248,38 +248,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.getElementById('phone').value;
             const service = document.getElementById('service').value;
 
-            const webhookURL = 'https://discord.com/api/webhooks/1469691760627159060/FENuip5jSBTIspNBNgqXErcNhC3cn5Z7473b1BVPMf8DEqIKDITbsnKFuR5vC214zvig';
+            // ============================================
+            // SECURITY: Send to backend API instead of direct Discord webhook
+            // This prevents webhook URL exposure and adds rate limiting
+            // ============================================
+            const backendURL = '/api/contact';
 
             const payload = {
-                embeds: [{
-                    title: '🚀 طلب جديد من موقع SybTech',
-                    color: 0x00e1ff,
-                    fields: [
-                        {
-                            name: '👤 الاسم',
-                            value: name,
-                            inline: true
-                        },
-                        {
-                            name: '📱 رقم الهاتف',
-                            value: phone,
-                            inline: true
-                        },
-                        {
-                            name: '🛠️ الخدمة المطلوبة',
-                            value: service,
-                            inline: false
-                        }
-                    ],
-                    timestamp: new Date().toISOString(),
-                    footer: {
-                        text: 'SybTech Contact Form'
-                    }
-                }]
+                name: name,
+                phone: phone,
+                service: service
             };
 
             try {
-                const response = await fetch(webhookURL, {
+                const response = await fetch(backendURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -287,15 +269,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(payload)
                 });
 
-                if (response.ok) {
-                    // Show success alert in current language
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Show success message in current language
                     alert(translations[currentLang].form_success);
                     contactForm.reset();
                 } else {
-                    alert(translations[currentLang].form_error);
+                    alert(data.error || translations[currentLang].form_error);
                 }
             } catch (error) {
-                console.error('Error sending to Discord:', error);
+                console.error('Error sending contact form:', error);
                 alert(translations[currentLang].form_error);
             }
         });

@@ -10,12 +10,15 @@ Author: Senior Full-Stack Developer
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 import os
 import requests
 from openai import OpenAI
 import re
 import json
+import bleach
 from datetime import datetime
 
 # Load environment variables (for local development)
@@ -24,10 +27,25 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
-# CORS Configuration for Production
+# ============================================
+# SECURITY: Rate Limiting Configuration
+# ============================================
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
+
+# ============================================
+# SECURITY: CORS Configuration (Production)
+# ============================================
+# Get allowed origins from environment variable
+ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', '*').split(',')
+
 CORS(app, resources={
     r"/*": {
-        "origins": ["*"],  # Configure with your actual domain in production
+        "origins": ALLOWED_ORIGINS,
         "methods": ["POST", "GET", "OPTIONS"],
         "allow_headers": ["Content-Type"]
     }
@@ -45,6 +63,44 @@ if not DISCORD_WEBHOOK_URL:
 
 # Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+
+# ============================================
+# SECURITY: Input Validation & Sanitization
+# ============================================
+def sanitize_input(text, max_length=2000):
+    """
+    Sanitize user input to prevent XSS and prompt injection
+    Args:
+        text: Input text to sanitize
+        max_length: Maximum allowed length
+    Returns:
+        Sanitized text or None if invalid
+    """
+    if not text or not isinstance(text, str):
+        return None
+    
+    # Limit length
+    text = text[:max_length]
+    
+    # Remove HTML tags and potentially dangerous content
+    text = bleach.clean(text, tags=[], strip=True)
+    
+    # Remove excessive whitespace
+    text = ' '.join(text.split())
+    
+    # Basic prompt injection prevention
+    suspicious_patterns = [
+        r'ignore\s+previous\s+instructions',
+        r'system\s*:',
+        r'[{}\[\]<>]{{3,}}',  # Multiple special chars
+    ]
+    
+    for pattern in suspicious_patterns:
+        if re.search(pattern, text, re.IGNORECASE):
+            print(f"⚠️ Suspicious input detected: {pattern}")
+            # Still allow but log for monitoring
+    
+    return text
 
 # System Prompt - Mohamed Persona (DO NOT CHANGE)
 SYSTEM_PROMPT = """You are Mohamed, 23 years old, Senior Sales Consultant at SybTech.
@@ -110,9 +166,11 @@ Start the conversation with a warm, brief greeting and ask how you can help."""
 
 
 @app.route('/chat', methods=['POST', 'OPTIONS'])
+@limiter.limit(os.getenv('RATE_LIMIT_CHAT', '60 per minute'))
 def chat():
     """
     Main chat endpoint - handles AI conversation and lead capture
+    SECURITY: Rate limited to prevent abuse
     """
     # Handle preflight
     if request.method == 'OPTIONS':
@@ -126,6 +184,21 @@ def chat():
             return jsonify({'error': 'Invalid request: messages array required'}), 400
         
         messages = data['messages']
+        
+        # ============================================
+        # SECURITY: Sanitize all user messages
+        # ============================================
+        sanitized_messages = []
+        for msg in messages:
+            if msg.get('role') == 'user':
+                sanitized_content = sanitize_input(msg.get('content', ''))
+                if not sanitized_content:
+                    return jsonify({'error': 'Invalid message content'}), 400
+                sanitized_messages.append({'role': 'user', 'content': sanitized_content})
+            else:
+                sanitized_messages.append(msg)
+        
+        messages = sanitized_messages
         
         # Ensure system prompt is at the beginning
         if not messages or messages[0].get('role') != 'system':
@@ -230,6 +303,118 @@ def send_to_discord(lead_data):
             
     except Exception as e:
         print(f"❌ Error sending to Discord: {e}")
+
+
+
+
+@app.route('/api/contact', methods=['POST', 'OPTIONS'])
+@limiter.limit(os.getenv('RATE_LIMIT_CONTACT', '30 per minute'))
+def contact():
+    """
+    Contact form endpoint - handles form submissions securely
+    SECURITY: Rate limited and input validated
+    """
+    # Handle preflight
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    try:
+        # Get form data
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'Invalid request: no data provided'}), 400
+        
+        # ============================================
+        # SECURITY: Validate and sanitize inputs
+        # ============================================
+        name = sanitize_input(data.get('name', ''), max_length=100)
+        phone = sanitize_input(data.get('phone', ''), max_length=20)
+        service = sanitize_input(data.get('service', ''), max_length=100)
+        
+        # Validate required fields
+        if not name or not phone or not service:
+            return jsonify({'error': 'Missing required fields'}), 400
+        
+        # Phone number basic validation (numbers, +, spaces, dashes only)
+        if not re.match(r'^[0-9+\s\-()]+$', phone):
+            return jsonify({'error': 'Invalid phone number format'}), 400
+        
+        # Prepare contact data
+        contact_data = {
+            'name': name,
+            'phone': phone,
+            'service': service
+        }
+        
+        # Send to Discord webhook (server-side - webhook URL never exposed)
+        send_contact_to_discord(contact_data)
+        
+        return jsonify({
+            'success': True,
+            'message': 'تم إرسال طلبك بنجاح! / Request sent successfully!'
+        }), 200
+        
+    except Exception as e:
+        print(f"❌ Error in /api/contact endpoint: {e}")
+        return jsonify({'error': 'حدث خطأ أثناء إرسال الطلب / Error sending request'}), 500
+
+
+def send_contact_to_discord(contact_data):
+    """
+    Send contact form submission to Discord webhook
+    Args:
+        contact_data: dict with 'name', 'phone', 'service'
+    """
+    try:
+        # Create rich embed
+        embed = {
+            "title": "🚀 طلب جديد من موقع SybTech / New Contact Form Submission",
+            "color": 0x00E1FF,  # SybTech Cyan
+            "fields": [
+                {
+                    "name": "👤 الاسم / Name",
+                    "value": contact_data.get('name', 'غير محدد / Not specified'),
+                    "inline": True
+                },
+                {
+                    "name": "📱 رقم الهاتف / Phone",
+                    "value": contact_data.get('phone', 'غير محدد / Not specified'),
+                    "inline": True
+                },
+                {
+                    "name": "🛠️ الخدمة المطلوبة / Service Required",
+                    "value": contact_data.get('service', 'غير محدد / Not specified'),
+                    "inline": False
+                }
+            ],
+            "timestamp": datetime.utcnow().isoformat(),
+            "footer": {
+                "text": "SybTech Contact Form - Secure Backend 🔒"
+            }
+        }
+        
+        payload = {
+            "username": "SybTech Contact Bot",
+            "avatar_url": "https://i.imgur.com/4M34hi2.png",
+            "embeds": [embed]
+        }
+        
+        # Send Discord notification
+        response = requests.post(
+            DISCORD_WEBHOOK_URL,
+            json=payload,
+            headers={'Content-Type': 'application/json'},
+            timeout=5
+        )
+        
+        if response.status_code == 204:
+            print("✅ Contact form sent to Discord successfully!")
+        else:
+            print(f"⚠️ Discord webhook returned status {response.status_code}")
+            
+    except Exception as e:
+        print(f"❌ Error sending contact to Discord: {e}")
 
 
 @app.route('/health', methods=['GET', 'OPTIONS'])

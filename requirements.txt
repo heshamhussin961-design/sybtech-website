@@ -1,5 +1,7 @@
-Flask
+flask
 flask-cors
-openai
 python-dotenv
+openai
 requests
+Flask-Limiter==3.5.0
+bleach==6.1.0

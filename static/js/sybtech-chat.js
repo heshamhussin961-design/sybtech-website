@@ -16,7 +16,79 @@
     // ============================================
     const CONFIG = {
         backendUrl: '/api/chat', // Correct Flask backend endpoint
-        storageKey: 'sybtech_chat_session' // Using sessionStorage instead of localStorage
+        storageKey: 'sybtech_chat_session', // Using sessionStorage instead of localStorage
+        encryptionEnabled: true // Enable session encryption for privacy
+    };
+
+    // ============================================
+    // SECURITY: Session Storage Encryption
+    // ============================================
+    const EncryptionUtils = {
+        // Generate a simple key from domain (not cryptographically secure but better than plaintext)
+        getKey: async function () {
+            const keyMaterial = window.location.hostname + 'sybtech-secure-2026';
+            const encoder = new TextEncoder();
+            const keyData = encoder.encode(keyMaterial);
+
+            // Create a simple hash to use as key
+            const hashBuffer = await crypto.subtle.digest('SHA-256', keyData);
+            return await crypto.subtle.importKey(
+                'raw',
+                hashBuffer,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt', 'decrypt']
+            );
+        },
+
+        encrypt: async function (text) {
+            try {
+                const key = await this.getKey();
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: 'AES-GCM', iv: iv },
+                    key,
+                    data
+                );
+
+                // Combine IV and encrypted data
+                const combined = new Uint8Array(iv.length + encrypted.byteLength);
+                combined.set(iv);
+                combined.set(new Uint8Array(encrypted), iv.length);
+
+                // Convert to base64
+                return btoa(String.fromCharCode.apply(null, combined));
+            } catch (e) {
+                console.error('Encryption error:', e);
+                return text; // Fallback to plaintext if encryption fails
+            }
+        },
+
+        decrypt: async function (encryptedText) {
+            try {
+                const key = await this.getKey();
+
+                // Convert from base64
+                const combined = Uint8Array.from(atob(encryptedText), c => c.charCodeAt(0));
+                const iv = combined.slice(0, 12);
+                const data = combined.slice(12);
+
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv: iv },
+                    key,
+                    data
+                );
+
+                const decoder = new TextDecoder();
+                return decoder.decode(decrypted);
+            } catch (e) {
+                console.error('Decryption error:', e);
+                return encryptedText; // Fallback to original if decryption fails
+            }
+        }
     };
 
     const SYSTEM_PROMPT = `You are Mohamed, 23 years old, Senior Sales Consultant at SybTech.
@@ -533,11 +605,15 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
     // ============================================
     class SybTechChat {
         constructor() {
-            this.conversationHistory = this.loadHistory();
             this.elements = {};
             this.pageLanguage = detectPageLanguage();
             this.uiText = UI_TRANSLATIONS[this.pageLanguage];
+            this.conversationHistory = [{ role: 'system', content: SYSTEM_PROMPT }];
             this.init();
+            // Load history asynchronously after init
+            this.loadHistory().then(history => {
+                this.conversationHistory = history;
+            });
         }
 
         init() {
@@ -648,11 +724,19 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
             }
         }
 
-        loadHistory() {
+        async loadHistory() {
             try {
                 const saved = sessionStorage.getItem(CONFIG.storageKey);
                 if (saved) {
-                    const history = JSON.parse(saved);
+                    // ============================================
+                    // SECURITY: Decrypt stored conversation
+                    // ============================================
+                    let decrypted = saved;
+                    if (CONFIG.encryptionEnabled && window.crypto && window.crypto.subtle) {
+                        decrypted = await EncryptionUtils.decrypt(saved);
+                    }
+
+                    const history = JSON.parse(decrypted);
                     if (history[0]?.role !== 'system') {
                         return [{ role: 'system', content: SYSTEM_PROMPT }];
                     }
@@ -664,9 +748,19 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
             return [{ role: 'system', content: SYSTEM_PROMPT }];
         }
 
-        saveHistory() {
+        async saveHistory() {
             try {
-                sessionStorage.setItem(CONFIG.storageKey, JSON.stringify(this.conversationHistory));
+                const historyJson = JSON.stringify(this.conversationHistory);
+
+                // ============================================
+                // SECURITY: Encrypt before storing
+                // ============================================
+                let toStore = historyJson;
+                if (CONFIG.encryptionEnabled && window.crypto && window.crypto.subtle) {
+                    toStore = await EncryptionUtils.encrypt(historyJson);
+                }
+
+                sessionStorage.setItem(CONFIG.storageKey, toStore);
             } catch (e) {
                 console.error('Error saving chat history:', e);
             }
