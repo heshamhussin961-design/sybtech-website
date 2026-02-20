@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Syb-Tech AI | Rate Card 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* ── Critical Print Rules ─────────────────────────────────── */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background-color: #0B1120 !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            html,
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .print\:hidden {
+                display: none !important;
+            }
+        }
+
+        /* ── Base ────────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #060d1a;
+            font-family: 'Cairo', 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 16px;
+        }
+
+        /* ── A4 Paper Wrapper ────────────────────────────────────── */
+        .a4 {
+            width: 800px;
+            min-height: 1130px;
+            background: #0B1120;
+            display: flex;
+            flex-direction: column;
+            padding: 26px 32px 20px;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0, 217, 255, 0.08), 0 30px 80px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(30, 58, 95, 0.8);
+        }
+
+        /* Subtle top accent line */
+        .a4::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d9ff, #3b82f6, #8b5cf6);
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* ── Gradient helpers ────────────────────────────────────── */
+        .grad-text {
+            background: linear-gradient(135deg, #00d9ff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── Header ─────────────────────────────────────────────── */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.7);
+        }
+
+        /* ── Divider ─────────────────────────────────────────────── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.4), transparent);
+            margin: 10px 0;
+            flex-shrink: 0;
+        }
+
+        /* ── Section Label ───────────────────────────────────────── */
+        .section-label {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #00d9ff;
+            opacity: 0.7;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        /* ── Service Cards ───────────────────────────────────────── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .service-card {
+            background: #0d1b33;
+            border: 1px solid #1e3a5f;
+            border-radius: 12px;
+            padding: 13px 15px 11px;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+            box-shadow: 0 0 15px rgba(34, 211, 153, 0.07);
+        }
+
+        /* glowing corner accent */
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d9ff, #3b82f6);
+            border-radius: 14px 14px 0 0;
+        }
+
+        /* background glow blob */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 217, 255, 0.06);
+            border-radius: 50%;
+            filter: blur(20px);
+        }
+
+        .card-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .card-ar-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #e2e8f0;
+            line-height: 1.2;
+            margin-bottom: 1px;
+        }
+
+        .card-en-title {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .card-ar-desc {
+            font-size: 9px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 3px;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .card-en-desc {
+            font-size: 8.5px;
+            color: #64748b;
+            line-height: 1.4;
+            margin-bottom: 9px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        /* Price Pill */
+        .price-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.12), rgba(59, 130, 246, 0.12));
+            border: 1px solid rgba(0, 217, 255, 0.25);
+        }
+
+        .price-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d9ff, #3b82f6);
+            flex-shrink: 0;
+        }
+
+        .price-ar {
+            font-size: 9.5px;
+            font-weight: 800;
+            color: #00d9ff;
+        }
+
+        .price-en {
+            font-size: 8.5px;
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        /* ── Why Grid ────────────────────────────────────────────── */
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .why-card {
+            background: rgba(13, 27, 51, 0.6);
+            border: 1px solid rgba(30, 58, 95, 0.6);
+            border-radius: 8px;
+            padding: 10px 10px;
+            text-align: center;
+        }
+
+        .why-icon {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .why-ar-title {
+            font-size: 10px;
+            font-weight: 800;
+            margin-bottom: 0px;
+        }
+
+        .why-en-title {
+            font-size: 8px;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 4px;
+        }
+
+        .why-ar-desc {
+            font-size: 7.5px;
+            color: #64748b;
+            line-height: 1.45;
+            direction: rtl;
+        }
+
+        .why-en-desc {
+            font-size: 7px;
+            color: #475569;
+            line-height: 1.35;
+            direction: ltr;
+        }
+
+        /* ── Footer CTA ──────────────────────────────────────────── */
+        .footer-cta {
+            margin-top: auto;
+            border-radius: 10px;
+            background: rgba(13, 27, 51, 0.8);
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.08);
+            padding: 10px 16px;
+        }
+
+        .cta-ar {
+            font-size: 11px;
+            font-weight: 800;
+            color: #e2e8f0;
+            direction: rtl;
+            text-align: right;
+            margin-bottom: 2px;
+        }
+
+        .cta-en {
+            font-size: 9px;
+            color: #94a3b8;
+            direction: ltr;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+            color: #94a3b8;
+        }
+
+        .contact-item strong {
+            color: #00d9ff;
+            font-weight: 700;
+        }
+
+        /* ── Copyright ───────────────────────────────────────────── */
+        .copyright {
+            text-align: center;
+            font-size: 7px;
+            color: #334155;
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(30, 58, 95, 0.4);
+        }
+
+        /* Download button positioning */
+        .download-btn-wrapper {
+            width: 800px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 820px) {
+            .a4 {
+                width: 100%;
+                padding: 24px 16px;
+            }
+
+            .download-btn-wrapper {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Download Button (completely hidden on print) ──────── -->
+    <div class="download-btn-wrapper print:hidden">
+        <button onclick="window.print()"
+            class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-5 py-2 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform text-sm tracking-wide cursor-pointer">
+            ⬇ تحميل كملف PDF &nbsp;|&nbsp; Download PDF
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+       A4 DOCUMENT
+  ═══════════════════════════════════════════════════════════ -->
+    <div class="a4">
+
+        <!-- ── HEADER ─────────────────────────────────────────── -->
+        <div class="header">
+            <!-- Logo -->
+            <img src="static/images/favicon.png" alt="Syb-Tech"
+                class="h-16 mx-auto mb-2 object-contain mix-blend-screen"
+                style="filter: drop-shadow(0 0 10px rgba(0,217,255,0.5));" />
+
+            <!-- Arabic Main Title -->
+            <h1 dir="rtl" class="grad-text"
+                style="font-size:17px; font-weight:900; line-height:1.2; margin-bottom:2px;">
+                نحن نبني بنيتك التحتية الرقمية
+            </h1>
+
+            <!-- English Main Title -->
+            <h2 dir="ltr"
+                style="font-size:12px; font-weight:700; color:#94a3b8; margin-bottom:5px; letter-spacing:0.3px;">
+                We Build Your Digital Infrastructure
+            </h2>
+
+            <!-- Subtitle -->
+            <p dir="rtl" style="font-size:9px; color:#64748b; max-width:480px; line-height:1.5; margin-bottom:1px;">
+                حلول تقنية متكاملة لتقليص التكاليف التشغيلية وتسريع النمو
+            </p>
+            <p dir="ltr" style="font-size:8.5px; color:#475569; max-width:480px; line-height:1.4;">
+                End-to-end tech solutions to cut operational costs &amp; accelerate growth.
+            </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ── SERVICES ────────────────────────────────────────── -->
+        <div class="section-label">⬡ الخدمات والأسعار &nbsp;•&nbsp; Services &amp; Pricing</div>
+
+        <div class="services-grid">
+
+            <!-- Card 1: Web & Landing Pages -->
+            <div class="service-card">
+                <span class="card-icon">🌐</span>
+                <div dir="rtl" class="card-ar-title">تطوير المواقع والصفحات</div>
+                <div dir="ltr" class="card-en-title">Web &amp; Landing Pages</div>
+                <div class="card-ar-desc">واجهات سريعة ومحسنة لزيادة معدلات التحويل ومحركات البحث (SEO).</div>
+                <div class="card-en-desc">Fast, high-conversion corporate websites &amp; landing pages.</div>
+                <div class="price-pill">
+                    <span class="price-dot"></span>
+                    <span class="price-ar">تبدأ من 2,500 درهم</span>
+                    <span class="price-en">| Starts from 2,500 AED</span>
+                </div>
+            </div>
+
+            <!-- Card 2: AI & Business Automation -->
+            <div class="service-card">
+                <span class="card-icon">🤖</span>
+                <div dir="rtl" class="card-ar-title">أتمتة الذكاء الاصطناعي</div>
+                <div dir="ltr" class="card-en-title">AI &amp; Business Automation</div>
+                <div class="card-ar-desc">روبوتات واتساب وأنظمة أتمتة لتقليل التدخل البشري 24/7.</div>
+                <div class="card-en-desc">AI Chatbots &amp; workflow automation to reduce manual tasks.</div>
+                <div class="price-pill">
+                    <span class="price-dot"></span>
+                    <span class="price-ar">تأسيس من 2,500 درهم</span>
+                    <span class="price-en">| Setup from 2,500 AED</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Mobile App Development -->
+            <div class="service-card">
+                <span class="card-icon">📱</span>
+                <div dir="rtl" class="card-ar-title">تطبيقات الجوال</div>
+                <div dir="ltr" class="card-en-title">Mobile App Development</div>
+                <div class="card-ar-desc">تطبيقات (iOS/Android) أصلية لتعزيز ولاء العملاء (Retention).</div>
+                <div class="card-en-desc">Native mobile applications with full backend control.</div>
+                <div class="price-pill">
+                    <span class="price-dot"></span>
+                    <span class="price-ar">تبدأ من 35,000 درهم</span>
+                    <span class="price-en">| Starts from 35,000 AED</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Custom ERP & CRM -->
+            <div class="service-card">
+                <span class="card-icon">⚙️</span>
+                <div dir="rtl" class="card-ar-title">الأنظمة الإدارية المخصصة</div>
+                <div dir="ltr" class="card-en-title">Custom ERP &amp; CRM</div>
+                <div class="card-ar-desc">أنظمة داخلية مخصصة لإدارة الموارد، المبيعات، والعمليات.</div>
+                <div class="card-en-desc">Tailored internal systems to replace manual workflows.</div>
+                <div class="price-pill">
+                    <span class="price-dot"></span>
+                    <span class="price-ar">تبدأ من 45,000 درهم</span>
+                    <span class="price-en">| Starts from 45,000 AED</span>
+                </div>
+            </div>
+
+        </div><!-- /services-grid -->
+
+        <div class="divider"></div>
+
+        <!-- ── WHY SYB-TECH ────────────────────────────────────── -->
+        <div class="section-label">⬡ لماذا Syb-Tech &nbsp;•&nbsp; Our Engagement Model</div>
+
+        <div class="why-grid">
+
+            <div class="why-card">
+                <div class="why-icon">🛡️</div>
+                <div dir="rtl" class="why-ar-title grad-text">دعم تقني استباقي</div>
+                <div dir="ltr" class="why-en-title">Proactive Tech Support</div>
+                <div dir="rtl" class="why-ar-desc">لا ننتظر حدوث الأعطال؛ نوفر حماية وتحديثات مستمرة تضمن استقرار أنظمتك
+                    24/7.</div>
+                <div dir="ltr" class="why-en-desc">Continuous security and updates ensuring 24/7 system reliability.
+                </div>
+            </div>
+
+            <div class="why-card">
+                <div class="why-icon">🧱</div>
+                <div dir="rtl" class="why-ar-title grad-text">بنية برمجية فائقة الاستقرار</div>
+                <div dir="ltr" class="why-en-title">Enterprise-Grade Architecture</div>
+                <div dir="rtl" class="why-ar-desc">أنظمة مؤسسية متطورة مصممة لتحمل ضغط العمل وتتوسع بمرونة مع نمو شركتك.
+                </div>
+                <div dir="ltr" class="why-en-desc">Robust systems built to handle high loads and scale seamlessly with
+                    your growth.</div>
+            </div>
+
+            <div class="why-card">
+                <div class="why-icon">📈</div>
+                <div dir="rtl" class="why-ar-title grad-text">تقنيات تضاعف الأرباح</div>
+                <div dir="ltr" class="why-en-title">ROI-Driven Solutions</div>
+                <div dir="rtl" class="why-ar-desc">كل درهم يُستثمر في تقنياتنا مصمم هندسياً لتقليص التكاليف التشغيلية
+                    ومضاعفة العائد.</div>
+                <div dir="ltr" class="why-en-desc">Every dirham invested is engineered to cut costs and maximize your
+                    ROI.</div>
+            </div>
+
+        </div><!-- /why-grid -->
+
+        <div class="divider"></div>
+
+        <!-- ── FOOTER CTA ──────────────────────────────────────── -->
+        <div class="footer-cta">
+            <div class="cta-ar">
+                🎯 ابدأ التحول الرقمي لشركتك الآن — احصل على <span class="grad-text">فحص تقني مجاني</span> لموقعك الحالي
+            </div>
+            <div class="cta-en">
+                Start your digital transformation with a <strong style="color:#00d9ff;">FREE Technical Audit</strong>
+                for your existing website.
+            </div>
+
+            <div class="contact-row">
+                <div class="contact-item">
+                    <span>💬</span>
+                    <span>واتساب | WhatsApp:</span>
+                    <strong>+971 58 102 6759</strong>
+                </div>
+                <div class="contact-item">
+                    <span>✉️</span>
+                    <span>إيميل | Email:</span>
+                    <strong>admin@syb-tech.com</strong>
+                </div>
+                <div class="contact-item">
+                    <span>🌐</span>
+                    <strong style="color:#3b82f6;">www.syb-tech.com</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── COPYRIGHT ───────────────────────────────────────── -->
+        <div class="copyright">
+            © 2026 Syb-Tech AI, Abu Dhabi, UAE. All Rights Reserved &nbsp;|&nbsp; جميع الحقوق محفوظة
+        </div>
+
+    </div><!-- /a4 -->
+
+</body>
+
+</html>

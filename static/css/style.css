@@ -1735,8 +1735,11 @@ button,
         display: none !important;
     }
 
-    /* All existing desktop styles remain active */
     .navbar {
         display: flex !important;
     }
 }
+
+/* =========================================
+   Works Page - Global Sync
+   ========================================= */
