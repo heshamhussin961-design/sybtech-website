@@ -3,8 +3,8 @@
 // Offline Support & Asset Caching
 // ============================================
 
-const CACHE_NAME = 'sybtech-v1';
-const RUNTIME_CACHE = 'sybtech-runtime-v1';
+const CACHE_NAME = 'sybtech-v2';
+const RUNTIME_CACHE = 'sybtech-runtime-v2';
 
 // Assets to precache on install
 const PRECACHE_ASSETS = [
@@ -13,6 +13,7 @@ const PRECACHE_ASSETS = [
     '/about.html',
     '/services.html',
     '/contact.html',
+    '/sybtech_app.html',
     '/static/css/style.css',
     '/static/js/main.js',
     '/static/js/sybtech-chat.js',
@@ -65,8 +66,24 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
 
-    // Skip cross-origin requests
+    // Skip cross-origin requests (CDN resources load directly)
     if (url.origin !== location.origin) {
+        return;
+    }
+
+    // Serve sybtech_app.html for /app and /mobile routes
+    if (url.pathname === '/app' || url.pathname === '/mobile') {
+        event.respondWith(
+            fetch(request)
+                .then((response) => {
+                    if (response && response.status === 200) {
+                        const clone = response.clone();
+                        caches.open(RUNTIME_CACHE).then((c) => c.put(request, clone));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match('/sybtech_app.html'))
+        );
         return;
     }
 
