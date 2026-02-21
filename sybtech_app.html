@@ -578,6 +578,154 @@
       <!-- ████ END CHAT ████ -->
 
 
+      <!-- ████ WORKS TAB ████ -->
+      <div
+        x-show="activeTab==='works'"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        class="h-full overflow-y-auto slim-scroll"
+      >
+        <!-- Header -->
+        <div class="px-5 pt-5 pb-1">
+          <p class="text-[10px] font-bold tracking-widest mb-1" style="color:#00e1ff">// Portfolio</p>
+          <h2 class="text-2xl font-black text-white">
+            أعمالنا &amp; <span class="gradient-text">مشاريعنا</span>
+          </h2>
+          <p class="text-gray-400 text-xs mt-1 mb-4">مشاريع حقيقية بُنيت بشغف واحترافية</p>
+        </div>
+
+        <!-- Stats row -->
+        <div class="px-5 mb-4 grid grid-cols-3 gap-2 text-center">
+          <div class="glass-card rounded-xl py-2 glow-cyan">
+            <p class="text-syb-cyan font-black text-lg">7+</p>
+            <p class="text-gray-400 text-[9px]">مشروع منجز</p>
+          </div>
+          <div class="glass-card rounded-xl py-2" style="border:1px solid rgba(188,19,254,.3)">
+            <p class="text-syb-purple font-black text-lg">100%</p>
+            <p class="text-gray-400 text-[9px]">رضا العملاء</p>
+          </div>
+          <div class="glass-card rounded-xl py-2" style="border:1px solid rgba(0,255,136,.3)">
+            <p class="font-black text-lg" style="color:#00ff88">Live</p>
+            <p class="text-gray-400 text-[9px]">جميعها شغالة</p>
+          </div>
+        </div>
+
+        <!-- Project Cards -->
+        <div class="px-5 space-y-3 pb-24">
+
+          <!-- ★ SybTech Mobile App (هذا الأبلكيشن!) -->
+          <div class="glass-card rounded-2xl overflow-hidden" style="border:1px solid rgba(0,225,255,.3)">
+            <div class="relative h-20 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(0,225,255,.1),rgba(188,19,254,.1))">
+              <i class="fa-solid fa-mobile-screen-button text-5xl" style="color:rgba(0,225,255,.2)"></i>
+              <div class="absolute top-2 right-2 flex gap-1 flex-wrap">
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,225,255,.15);color:#00e1ff;border:1px solid rgba(0,225,255,.3)">Alpine.js</span>
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,225,255,.15);color:#00e1ff;border:1px solid rgba(0,225,255,.3)">Tailwind</span>
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,225,255,.15);color:#00e1ff;border:1px solid rgba(0,225,255,.3)">GPT-4o</span>
+              </div>
+              <div class="absolute top-2 left-2 flex items-center gap-1 text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(0,255,136,.12);border:1px solid #00ff88;color:#00ff88">
+                <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:#00ff88"></span>Live
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="text-[9px] font-bold tracking-widest text-gray-500 mb-1">Project_08</p>
+              <h3 class="text-white font-black text-sm mb-0.5">تطبيق SybTech الذكي</h3>
+              <p class="text-[10px] font-semibold mb-2" style="color:#00e1ff">SybTech AI Mobile App</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed mb-3">
+                تطبيق موبايل تفاعلي يعرض خدمات SybTech ويتيح للعملاء التحدث مع "محمد" مستشار المبيعات الذكي المدعوم بـ GPT-4o-mini — Live Demo متاح الآن.<br>
+                <span class="text-gray-500">An interactive mobile web app showcasing SybTech services with Mohamed AI sales bot powered by GPT-4o-mini.</span>
+              </p>
+              <div class="flex gap-2">
+                <a href="/app" target="_blank" class="btn-app flex-1 text-center py-2 rounded-xl text-[10px] font-black" style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617">
+                  <i class="fa-solid fa-mobile-screen-button ml-1"></i> فتح التطبيق
+                </a>
+                <a href="/works" target="_blank" class="btn-app px-3 py-2 rounded-xl text-[10px] font-bold text-syb-cyan glass-card">
+                  <i class="fa-solid fa-folder-open"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cyber Ops -->
+          <div class="glass-card rounded-2xl overflow-hidden" style="border:1px solid rgba(0,225,255,.2)">
+            <div class="relative h-16 flex items-center justify-center" style="background:rgba(0,225,255,.05)">
+              <i class="fa-solid fa-shield-halved text-4xl" style="color:rgba(0,225,255,.15)"></i>
+              <div class="absolute top-2 right-2 flex gap-1">
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,225,255,.15);color:#00e1ff;border:1px solid rgba(0,225,255,.3)">Next.js</span>
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,225,255,.15);color:#00e1ff;border:1px solid rgba(0,225,255,.3)">React</span>
+              </div>
+              <div class="absolute top-2 left-2 flex items-center gap-1 text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(0,255,136,.12);border:1px solid #00ff88;color:#00ff88">
+                <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:#00ff88"></span>Live
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="text-[9px] font-bold tracking-widest text-gray-500 mb-1">Project_01</p>
+              <h3 class="text-white font-black text-sm mb-0.5">منصة Cyber Ops</h3>
+              <p class="text-[10px] font-semibold mb-2" style="color:#00e1ff">Cyber Ops Platform</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed mb-3">منصة أمن سيبراني احترافية بتصميم داكن متقدم مع واجهة مستخدم استثنائية.<br><span class="text-gray-500">A cybersecurity platform with advanced dark UI and exceptional UX.</span></p>
+              <a href="https://cyber-ops-sand.vercel.app" target="_blank" class="btn-app inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold text-syb-cyan" style="background:rgba(0,225,255,.1);border:1px solid rgba(0,225,255,.3)">
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> زيارة الموقع / Visit
+              </a>
+            </div>
+          </div>
+
+          <!-- WhatsApp AI Bot -->
+          <div class="glass-card rounded-2xl overflow-hidden" style="border:1px solid rgba(0,255,136,.2)">
+            <div class="relative h-16 flex items-center justify-center" style="background:rgba(0,255,136,.04)">
+              <i class="fa-brands fa-whatsapp text-4xl" style="color:rgba(37,211,102,.15)"></i>
+              <div class="absolute top-2 right-2 flex gap-1">
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,255,136,.15);color:#00ff88;border:1px solid rgba(0,255,136,.3)">OpenAI GPT</span>
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(0,255,136,.15);color:#00ff88;border:1px solid rgba(0,255,136,.3)">WhatsApp API</span>
+              </div>
+              <div class="absolute top-2 left-2 flex items-center gap-1 text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(0,225,255,.12);border:1px solid #00e1ff;color:#00e1ff">
+                <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:#00e1ff"></span>Running
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="text-[9px] font-bold tracking-widest text-gray-500 mb-1">Project_05</p>
+              <h3 class="text-white font-black text-sm mb-0.5">بوت المبيعات الذكي</h3>
+              <p class="text-[10px] font-semibold mb-2" style="color:#00ff88">WhatsApp AI Sales Bot</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed mb-3">بوت واتساب بالذكاء الاصطناعي كـ Sales Agent — يرد، يفهم، ويحجز مواعيد 24/7.<br><span class="text-gray-500">AI-powered WhatsApp bot acting as a Sales Agent — replies, qualifies, and books meetings 24/7.</span></p>
+              <a href="/works" target="_blank" class="btn-app inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold" style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88">
+                <i class="fa-solid fa-folder-open text-[9px]"></i> عرض الكل / View All
+              </a>
+            </div>
+          </div>
+
+          <!-- HR Bot -->
+          <div class="glass-card rounded-2xl overflow-hidden" style="border:1px solid rgba(188,19,254,.2)">
+            <div class="relative h-16 flex items-center justify-center" style="background:rgba(188,19,254,.04)">
+              <i class="fa-solid fa-users text-4xl" style="color:rgba(188,19,254,.15)"></i>
+              <div class="absolute top-2 right-2 flex gap-1">
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(188,19,254,.15);color:#bc13fe;border:1px solid rgba(188,19,254,.3)">Node.js</span>
+                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(188,19,254,.15);color:#bc13fe;border:1px solid rgba(188,19,254,.3)">HR Tech</span>
+              </div>
+              <div class="absolute top-2 left-2 flex items-center gap-1 text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(0,225,255,.12);border:1px solid #00e1ff;color:#00e1ff">
+                <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background:#00e1ff"></span>Running
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="text-[9px] font-bold tracking-widest text-gray-500 mb-1">Project_06</p>
+              <h3 class="text-white font-black text-sm mb-0.5">بوت الـ HR الذكي</h3>
+              <p class="text-[10px] font-semibold mb-2" style="color:#bc13fe">AI HR Screening Bot</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed mb-3">بوت ذكي يُجري مقابلات توظيف أوتوماتيكية ويقيّم المتقدمين بدون تدخل بشري.<br><span class="text-gray-500">AI bot that runs automated recruitment interviews and evaluates candidates.</span></p>
+              <a href="/works" target="_blank" class="btn-app inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold text-syb-purple" style="background:rgba(188,19,254,.1);border:1px solid rgba(188,19,254,.3)">
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> اعرف أكثر / Learn More
+              </a>
+            </div>
+          </div>
+
+          <!-- View All CTA -->
+          <a href="/works" target="_blank" class="btn-app w-full py-4 rounded-2xl text-sm font-black text-syb-dark gradient-bg flex items-center justify-center gap-2 glow-pulse">
+            <i class="fa-solid fa-grid-2"></i>
+            عرض جميع المشاريع / View All Projects
+          </a>
+
+        </div>
+      </div>
+      <!-- ████ END WORKS ████ -->
+
+
       <!-- ████ CONTACT TAB ████ -->
       <div
         x-show="activeTab==='contact'"
@@ -674,42 +822,47 @@
 
     <!-- ── Bottom Navigation Bar ── -->
     <div class="absolute bottom-0 left-0 right-0 glass-card" style="border-top:1px solid rgba(255,255,255,.07);height:80px">
-      <div class="flex items-center justify-around h-full px-2 pb-2">
+      <div class="flex items-center justify-around h-full px-1 pb-2">
 
+        <!-- الرئيسية -->
         <button @click="activeTab='home'"
           :class="activeTab==='home' ? 'text-syb-cyan' : 'text-gray-500'"
-          class="flex flex-col items-center gap-1 transition-all">
-          <i class="fa-solid fa-house text-lg"></i>
-          <span class="text-[9px] font-bold">الرئيسية</span>
+          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
+          <i class="fa-solid fa-house text-base"></i>
+          <span class="text-[8px] font-bold leading-none">الرئيسية</span>
         </button>
 
+        <!-- الخدمات -->
         <button @click="activeTab='services'"
           :class="activeTab==='services' ? 'text-syb-purple' : 'text-gray-500'"
-          class="flex flex-col items-center gap-1 transition-all">
-          <i class="fa-solid fa-briefcase text-lg"></i>
-          <span class="text-[9px] font-bold">الخدمات</span>
+          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
+          <i class="fa-solid fa-briefcase text-base"></i>
+          <span class="text-[8px] font-bold leading-none">الخدمات</span>
         </button>
 
         <!-- Center FAB - Mohamed -->
-        <button @click="goChat()" class="flex flex-col items-center gap-1 -mt-10">
-          <div class="w-14 h-14 rounded-full flex items-center justify-center glow-pulse shadow-xl font-black text-white text-2xl"
+        <button @click="goChat()" class="flex flex-col items-center gap-0.5 -mt-9 flex-shrink-0 mx-1">
+          <div class="w-13 h-13 w-[52px] h-[52px] rounded-full flex items-center justify-center glow-pulse shadow-xl font-black text-white text-xl"
             style="background:linear-gradient(135deg,#00d4ff,#bd00ff)">
             M
           </div>
-          <span class="text-[9px] font-bold" style="color:#00d4ff">محمد</span>
+          <span class="text-[8px] font-bold leading-none" style="color:#00d4ff">محمد</span>
         </button>
 
+        <!-- أعمالنا -->
+        <button @click="activeTab='works'"
+          :class="activeTab==='works' ? 'text-[#00ff88]' : 'text-gray-500'"
+          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
+          <i class="fa-solid fa-folder-open text-base"></i>
+          <span class="text-[8px] font-bold leading-none">أعمالنا</span>
+        </button>
+
+        <!-- تواصل -->
         <button @click="activeTab='contact'"
           :class="activeTab==='contact' ? 'text-syb-pink' : 'text-gray-500'"
-          class="flex flex-col items-center gap-1 transition-all">
-          <i class="fa-solid fa-phone text-lg"></i>
-          <span class="text-[9px] font-bold">تواصل</span>
-        </button>
-
-        <button @click="showToast('🚀 قريباً! الحساب الشخصي تحت التطوير')"
-          class="flex flex-col items-center gap-1 text-gray-500 transition-colors hover:text-syb-cyan">
-          <i class="fa-solid fa-user text-lg"></i>
-          <span class="text-[9px] font-bold">حسابي</span>
+          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
+          <i class="fa-solid fa-phone text-base"></i>
+          <span class="text-[8px] font-bold leading-none">تواصل</span>
         </button>
 
       </div>
