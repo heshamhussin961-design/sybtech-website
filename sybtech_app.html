@@ -23,15 +23,24 @@
           },
           fontFamily: { cairo: ['Cairo', 'sans-serif'] }
         }
-      }
+      },
+      /* Force-generate all dynamic classes used in Alpine :class bindings */
+      safelist: [
+        'text-syb-cyan','text-syb-purple','text-syb-pink','text-syb-wa',
+        'text-[#00ff88]','text-gray-500','text-white',
+        'opacity-100','opacity-40','glow-pulse'
+      ]
     }
   </script>
 
   <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Font Awesome 6 Free (pinned stable version) -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Cairo Font -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
@@ -140,13 +149,20 @@
       filter: brightness(1.12);
     }
 
+    /* ── Z-index layer system ── */
+    /* phone frame = stacking root (position:relative)     */
+    /* layer 1: content area tabs (z-index:1)             */
+    /* layer 2: bottom nav       (z-index:100) — CSS var  */
+    /* layer 3: chat header      (z-index:10)             */
+    /* layer 4: toast            (z-index:200)            */
+
     /* ── Toast notification ── */
     @keyframes toastIn  { from { opacity:0; transform: translateY(12px) translateX(-50%); } to { opacity:1; transform: translateY(0) translateX(-50%); } }
     @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
     .toast-wrap {
-      position: absolute; bottom: 100px; left: 50%;
+      position: absolute; bottom: 104px; left: 50%;
       transform: translateX(-50%);
-      z-index: 999; pointer-events: none;
+      z-index: 200; pointer-events: none;
     }
     .toast-box {
       white-space: nowrap;
@@ -209,7 +225,7 @@
     </div>
 
     <!-- ── Content Area (720px) ── -->
-    <div class="relative" style="height:720px">
+    <div class="relative" style="height:720px;z-index:1">
 
       <!-- ████ HOME TAB ████ -->
       <div
@@ -247,7 +263,10 @@
             <span class="gradient-text">واقع رقمي</span>
           </h2>
           <p class="text-gray-400 text-xs leading-relaxed mb-4">نبني أنظمة ذكية تدير أعمالك وتزيد أرباحك باستخدام أحدث تقنيات الذكاء الاصطناعي.</p>
-          <button @click="goChat()" class="gradient-bg btn-app text-syb-dark font-black text-xs px-5 py-2 rounded-full glow-pulse flex items-center gap-2">
+          <button @click="goChat()" class="btn-app font-black text-xs px-5 py-2 rounded-full flex items-center gap-2"
+            style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                   box-shadow:0 0 20px rgba(0,225,255,.5),0 0 40px rgba(188,19,254,.3);
+                   animation:glowPulse 3s ease-in-out infinite;">
             <span class="font-black text-sm">M</span> تحدث مع محمد الآن
           </button>
         </div>
@@ -320,7 +339,10 @@
 
         <!-- Big CTA -->
         <div class="px-5 mb-24">
-          <button @click="goChat()" class="w-full gradient-bg btn-app text-syb-dark font-black py-4 rounded-2xl text-sm glow-pulse flex items-center justify-center gap-2">
+          <button @click="goChat()" class="btn-app w-full font-black py-4 rounded-2xl text-sm flex items-center justify-center gap-2"
+            style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                   box-shadow:0 0 24px rgba(0,225,255,.5),0 0 48px rgba(188,19,254,.3);
+                   animation:glowPulse 3s ease-in-out infinite;">
             <span class="font-black text-lg leading-none">M</span>
             تحدث مع محمد — مستشار المبيعات 🚀
           </button>
@@ -367,7 +389,9 @@
                 <p class="text-gray-500 text-[10px]">يبدأ من</p>
                 <p class="font-black text-lg" style="color:#25d366">$299 <span class="text-xs text-gray-400 font-normal">/شهر</span></p>
               </div>
-              <button @click="goChat()" class="gradient-bg btn-app px-4 py-2 rounded-xl text-xs font-black text-white flex items-center gap-1">
+              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-black flex items-center gap-1"
+                style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                       box-shadow:0 0 14px rgba(0,225,255,.4),0 2px 8px rgba(0,0,0,.3);">
                 <span class="font-black">M</span> تحدث مع محمد
               </button>
             </div>
@@ -396,7 +420,9 @@
                 <p class="text-gray-500 text-[10px]">يبدأ من</p>
                 <p class="text-syb-cyan font-black text-lg">$499 <span class="text-xs text-gray-400 font-normal">/شهر</span></p>
               </div>
-              <button @click="goChat()" class="gradient-bg btn-app px-4 py-2 rounded-xl text-xs font-black text-syb-dark flex items-center gap-1">
+              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-black flex items-center gap-1"
+                style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                       box-shadow:0 0 14px rgba(0,225,255,.4),0 2px 8px rgba(0,0,0,.3);">
                 <span class="font-black">M</span> احجز استشارة
               </button>
             </div>
@@ -419,7 +445,9 @@
                 <p class="text-gray-500 text-[10px]">يبدأ من</p>
                 <p class="text-syb-purple font-black text-lg">$199 <span class="text-xs text-gray-400 font-normal">/مشروع</span></p>
               </div>
-              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-bold text-white" style="background:rgba(188,19,254,.25);border:1px solid rgba(188,19,254,.5)">اعرف أكثر ←</button>
+              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-bold"
+                style="background:rgba(188,19,254,.2);border:1px solid #bc13fe;color:#bc13fe;
+                       box-shadow:0 0 12px rgba(188,19,254,.35);">اعرف أكثر ←</button>
             </div>
           </div>
 
@@ -440,7 +468,9 @@
                 <p class="text-gray-500 text-[10px]">يبدأ من</p>
                 <p class="text-syb-pink font-black text-lg">$899 <span class="text-xs text-gray-400 font-normal">/مشروع</span></p>
               </div>
-              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-bold text-white" style="background:rgba(255,44,223,.25);border:1px solid rgba(255,44,223,.5)">اعرف أكثر ←</button>
+              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-bold"
+                style="background:rgba(255,44,223,.2);border:1px solid #ff2cdf;color:#ff2cdf;
+                       box-shadow:0 0 12px rgba(255,44,223,.35);">اعرف أكثر ←</button>
             </div>
           </div>
 
@@ -459,7 +489,7 @@
         style="height:720px"
       >
         <!-- Chat Header -->
-        <div class="flex items-center gap-3 px-4 py-3 glass-card flex-shrink-0" style="border-bottom:1px solid rgba(0,212,255,.15)">
+        <div class="flex items-center gap-3 px-4 py-3 glass-card flex-shrink-0" style="border-bottom:1px solid rgba(0,212,255,.15);position:relative;z-index:10">
           <button @click="activeTab='home'" class="text-gray-400 hover:text-white transition-colors">
             <i class="fa-solid fa-arrow-right text-sm"></i>
           </button>
@@ -716,8 +746,11 @@
           </div>
 
           <!-- View All CTA -->
-          <a href="/works" target="_blank" class="btn-app w-full py-4 rounded-2xl text-sm font-black text-syb-dark gradient-bg flex items-center justify-center gap-2 glow-pulse">
-            <i class="fa-solid fa-grid-2"></i>
+          <a href="/works" target="_blank"
+            class="btn-app w-full py-4 rounded-2xl text-sm font-black flex items-center justify-center gap-2"
+            style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                   box-shadow:0 0 24px rgba(0,225,255,.4),0 0 48px rgba(188,19,254,.2);">
+            <i class="fa-solid fa-border-all"></i>
             عرض جميع المشاريع / View All Projects
           </a>
 
@@ -807,7 +840,10 @@
           </div>
 
           <!-- Quick message CTA -->
-          <button @click="goChat()" class="w-full gradient-bg btn-app text-syb-dark font-black py-4 rounded-2xl text-sm glow-pulse flex items-center justify-center gap-2">
+          <button @click="goChat()" class="btn-app w-full font-black py-4 rounded-2xl text-sm flex items-center justify-center gap-2"
+            style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                   box-shadow:0 0 24px rgba(0,225,255,.5),0 0 48px rgba(188,19,254,.3);
+                   animation:glowPulse 3s ease-in-out infinite;">
             <span class="font-black text-base leading-none">M</span>
             تحدث مع محمد — مستشار المبيعات
           </button>
@@ -821,48 +857,75 @@
 
 
     <!-- ── Bottom Navigation Bar ── -->
-    <div class="absolute bottom-0 left-0 right-0 glass-card" style="border-top:1px solid rgba(255,255,255,.07);height:80px">
-      <div class="flex items-center justify-around h-full px-1 pb-2">
+    <div class="absolute bottom-0 left-0 right-0"
+      style="height:80px;
+             background:rgba(2,6,23,.92);
+             backdrop-filter:blur(20px);
+             -webkit-backdrop-filter:blur(20px);
+             border-top:1px solid rgba(0,225,255,.15);
+             z-index:100;
+             box-shadow:0 -4px 24px rgba(0,0,0,.5);">
+
+      <div class="flex items-center justify-around h-full px-1" style="padding-bottom:8px">
 
         <!-- الرئيسية -->
         <button @click="activeTab='home'"
-          :class="activeTab==='home' ? 'text-syb-cyan' : 'text-gray-500'"
-          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
-          <i class="fa-solid fa-house text-base"></i>
-          <span class="text-[8px] font-bold leading-none">الرئيسية</span>
+          :style="activeTab==='home'
+            ? 'color:#00e1ff; filter:drop-shadow(0 0 6px #00e1ff)'
+            : 'color:#4b5563'"
+          class="flex flex-col items-center gap-0.5 transition-all flex-1 min-w-0 py-1 px-1"
+          style="background:none;border:none;cursor:pointer;outline:none;">
+          <i class="fa-solid fa-house" style="font-size:18px"></i>
+          <span style="font-size:8px;font-weight:700;line-height:1.2">الرئيسية</span>
         </button>
 
         <!-- الخدمات -->
         <button @click="activeTab='services'"
-          :class="activeTab==='services' ? 'text-syb-purple' : 'text-gray-500'"
-          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
-          <i class="fa-solid fa-briefcase text-base"></i>
-          <span class="text-[8px] font-bold leading-none">الخدمات</span>
+          :style="activeTab==='services'
+            ? 'color:#bc13fe; filter:drop-shadow(0 0 6px #bc13fe)'
+            : 'color:#4b5563'"
+          class="flex flex-col items-center gap-0.5 transition-all flex-1 min-w-0 py-1 px-1"
+          style="background:none;border:none;cursor:pointer;outline:none;">
+          <i class="fa-solid fa-briefcase" style="font-size:18px"></i>
+          <span style="font-size:8px;font-weight:700;line-height:1.2">الخدمات</span>
         </button>
 
         <!-- Center FAB - Mohamed -->
-        <button @click="goChat()" class="flex flex-col items-center gap-0.5 -mt-9 flex-shrink-0 mx-1">
-          <div class="w-13 h-13 w-[52px] h-[52px] rounded-full flex items-center justify-center glow-pulse shadow-xl font-black text-white text-xl"
-            style="background:linear-gradient(135deg,#00d4ff,#bd00ff)">
+        <button @click="goChat()"
+          class="flex flex-col items-center gap-0.5 flex-shrink-0 mx-1"
+          style="background:none;border:none;cursor:pointer;outline:none;margin-top:-36px;">
+          <div style="
+            width:52px;height:52px;border-radius:50%;
+            background:linear-gradient(135deg,#00d4ff,#bd00ff);
+            display:flex;align-items:center;justify-content:center;
+            font-weight:900;color:white;font-size:20px;
+            box-shadow:0 0 18px rgba(0,212,255,.5),0 0 36px rgba(189,0,255,.3);
+            animation:glowPulse 3s ease-in-out infinite;">
             M
           </div>
-          <span class="text-[8px] font-bold leading-none" style="color:#00d4ff">محمد</span>
+          <span style="font-size:8px;font-weight:700;line-height:1.2;color:#00d4ff">محمد</span>
         </button>
 
         <!-- أعمالنا -->
         <button @click="activeTab='works'"
-          :class="activeTab==='works' ? 'text-[#00ff88]' : 'text-gray-500'"
-          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
-          <i class="fa-solid fa-folder-open text-base"></i>
-          <span class="text-[8px] font-bold leading-none">أعمالنا</span>
+          :style="activeTab==='works'
+            ? 'color:#00ff88; filter:drop-shadow(0 0 6px #00ff88)'
+            : 'color:#4b5563'"
+          class="flex flex-col items-center gap-0.5 transition-all flex-1 min-w-0 py-1 px-1"
+          style="background:none;border:none;cursor:pointer;outline:none;">
+          <i class="fa-solid fa-folder-open" style="font-size:18px"></i>
+          <span style="font-size:8px;font-weight:700;line-height:1.2">أعمالنا</span>
         </button>
 
         <!-- تواصل -->
         <button @click="activeTab='contact'"
-          :class="activeTab==='contact' ? 'text-syb-pink' : 'text-gray-500'"
-          class="flex flex-col items-center gap-0.5 transition-all min-w-0 flex-1">
-          <i class="fa-solid fa-phone text-base"></i>
-          <span class="text-[8px] font-bold leading-none">تواصل</span>
+          :style="activeTab==='contact'
+            ? 'color:#ff2cdf; filter:drop-shadow(0 0 6px #ff2cdf)'
+            : 'color:#4b5563'"
+          class="flex flex-col items-center gap-0.5 transition-all flex-1 min-w-0 py-1 px-1"
+          style="background:none;border:none;cursor:pointer;outline:none;">
+          <i class="fa-solid fa-phone" style="font-size:18px"></i>
+          <span style="font-size:8px;font-weight:700;line-height:1.2">تواصل</span>
         </button>
 
       </div>
