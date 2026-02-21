@@ -1741,5 +1741,202 @@ button,
 }
 
 /* =========================================
+   App Showcase Section (index.html)
+   ========================================= */
+.app-showcase-section {
+    padding: 100px 5% 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.app-showcase-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    opacity: .5;
+}
+
+.app-showcase-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+/* ── Text side ── */
+.app-showcase-text { flex: 1; }
+
+.app-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 700;
+    background: rgba(0,225,255,.1);
+    border: 1px solid rgba(0,225,255,.3);
+    color: var(--primary);
+    margin-bottom: 20px;
+    letter-spacing: .5px;
+}
+
+.app-showcase-title {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 18px;
+}
+
+.app-showcase-desc {
+    color: #94a3b8;
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 28px;
+    max-width: 460px;
+}
+
+.app-features-list {
+    list-style: none;
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.app-features-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #cbd5e1;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.app-features-list i { font-size: 1rem; flex-shrink: 0; }
+
+.app-launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .95rem;
+}
+
+/* ── Phone mockup side ── */
+.app-phone-wrap {
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.phone-glow-ring {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.ring-1 {
+    width: 340px; height: 340px;
+    border: 1px solid rgba(0,225,255,.12);
+    animation: ringPulse 4s ease-in-out infinite;
+}
+
+.ring-2 {
+    width: 480px; height: 480px;
+    border: 1px solid rgba(188,19,254,.08);
+    animation: ringPulse 4s ease-in-out infinite .6s;
+}
+
+@keyframes ringPulse {
+    0%,100% { transform: scale(1);   opacity: .6; }
+    50%      { transform: scale(1.05); opacity: 1; }
+}
+
+.app-phone-frame {
+    position: relative;
+    width: 260px;
+    background: #020617;
+    border-radius: 36px;
+    border: 2px solid rgba(255,255,255,.08);
+    box-shadow:
+        0 0 0 6px rgba(255,255,255,.04),
+        0 0 50px rgba(0,225,255,.18),
+        0 0 100px rgba(188,19,254,.10),
+        0 30px 60px rgba(0,0,0,.7);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.phone-top-bar {
+    height: 28px;
+    background: #020617;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 36px 36px 0 0;
+}
+
+.phone-speaker {
+    width: 60px; height: 5px;
+    background: rgba(255,255,255,.12);
+    border-radius: 10px;
+}
+
+.app-phone-iframe {
+    width: 390px;
+    height: 640px;
+    border: none;
+    display: block;
+    transform-origin: top left;
+    transform: scale(0.6667);         /* 260/390 = 0.6667 */
+    margin-bottom: -213px;            /* 640*(1-0.6667) = 213px offset */
+    pointer-events: none;             /* decorative only — click "افتح التطبيق" */
+}
+
+.phone-bottom-bar {
+    height: 28px;
+    background: #020617;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 0 0 36px 36px;
+}
+
+.phone-home-pill {
+    width: 80px; height: 5px;
+    background: rgba(255,255,255,.18);
+    border-radius: 10px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .app-showcase-inner { gap: 50px; }
+    .app-showcase-title { font-size: 2rem; }
+}
+
+@media (max-width: 768px) {
+    .app-showcase-section { padding: 70px 5%; }
+    .app-showcase-inner {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 50px;
+    }
+    .app-showcase-title { font-size: 1.7rem; text-align: center; }
+    .app-showcase-desc  { text-align: center; margin: 0 auto 28px; }
+    .app-features-list  { align-items: flex-start; }
+    .app-badge, .app-launch-btn { display: flex; justify-content: center; }
+    .app-showcase-text  { text-align: center; }
+    .ring-1 { width: 260px; height: 260px; }
+    .ring-2 { width: 360px; height: 360px; }
+}
+
+/* =========================================
    Works Page - Global Sync
    ========================================= */

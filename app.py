@@ -8,7 +8,7 @@ Author: Senior Full-Stack Developer
 ============================================
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -165,6 +165,14 @@ If a client becomes rude or insulting:
 Start the conversation with a warm, brief greeting and ask how you can help."""
 
 
+@app.route('/app')
+@app.route('/mobile')
+def mobile_app():
+    """Serve the SybTech mobile app prototype"""
+    return send_from_directory('.', 'sybtech_app.html')
+
+
+@app.route('/api/chat', methods=['POST', 'OPTIONS'])
 @app.route('/chat', methods=['POST', 'OPTIONS'])
 @limiter.limit(os.getenv('RATE_LIMIT_CHAT', '60 per minute'))
 def chat():
@@ -439,15 +447,17 @@ handler = app
 
 
 if __name__ == '__main__':
+    import sys
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
     print("=" * 50)
-    print("🚀 SybTech Backend - Local Development Mode")
+    print("SybTech Backend - Local Development Mode")
     print("=" * 50)
-    print("✅ Model: gpt-4o-mini")
+    print("Model: gpt-4o-mini")
+    print("Server: http://localhost:5000")
+    print("Chat endpoint: POST /api/chat")
+    print("Mobile App:    GET  /app")
+    print("Health check:  GET  /health")
     print("=" * 50)
-    print("🌐 Server: http://localhost:5000")
-    print("📡 Chat endpoint: POST /chat")
-    print("💚 Health check: GET /health")
-    print("=" * 50)
-    
+
     # Run Flask app (Local development only - Vercel uses 'handler' variable)
     app.run(debug=True, host='0.0.0.0', port=5000)

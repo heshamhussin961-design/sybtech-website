@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SybTech App</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            syb: {
+              dark:   '#020617',
+              card:   '#0f172a',
+              cyan:   '#00e1ff',
+              purple: '#bc13fe',
+              pink:   '#ff2cdf',
+              wa:     '#25d366',
+            }
+          },
+          fontFamily: { cairo: ['Cairo', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Cairo Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { font-family: 'Cairo', sans-serif; box-sizing: border-box; }
+
+    /* ── Starfield ── */
+    body { background: #010410; }
+    .stars-bg {
+      background-image:
+        radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,.4) 1px, transparent 1px);
+      background-size: 80px 80px, 150px 150px;
+      opacity: .12;
+      animation: starsMove 120s linear infinite;
+    }
+    @keyframes starsMove {
+      from { background-position: 0 0, 0 0; }
+      to   { background-position: -1000px 1000px, -500px 500px; }
+    }
+
+    /* ── Brand helpers ── */
+    .gradient-text {
+      background: linear-gradient(135deg, #00e1ff, #bc13fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-bg  { background: linear-gradient(135deg, #00e1ff, #bc13fe); }
+    .glass-card {
+      background: rgba(15,23,42,.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .glow-cyan  { box-shadow: 0 0 18px rgba(0,225,255,.25); }
+    .glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+    @keyframes glowPulse {
+      0%,100% { box-shadow: 0 0 12px rgba(0,225,255,.3); }
+      50%      { box-shadow: 0 0 32px rgba(0,225,255,.6), 0 0 60px rgba(188,19,254,.25); }
+    }
+    .float { animation: float 4s ease-in-out infinite; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /* ── Typing dots ── */
+    .dot { width:8px; height:8px; border-radius:50%; background:#00e1ff; animation: blink 1.4s ease-in-out infinite; }
+    .dot:nth-child(2) { animation-delay:.2s; }
+    .dot:nth-child(3) { animation-delay:.4s; }
+    @keyframes blink {
+      0%,60%,100% { opacity:.2; transform: scale(.8); }
+      30%          { opacity:1;  transform: scale(1.2); }
+    }
+
+    /* ── Chat bubbles ── */
+    .bubble-in  { border-radius: 18px 18px 18px 4px; }
+    .bubble-out { border-radius: 18px 18px 4px 18px; }
+
+    /* ── Scroll bar ── */
+    .slim-scroll::-webkit-scrollbar { width: 2px; }
+    .slim-scroll::-webkit-scrollbar-thumb { background: rgba(0,225,255,.3); border-radius: 4px; }
+    .slim-scroll::-webkit-scrollbar-track { background: transparent; }
+
+    /* ── Service card lift ── */
+    .service-card { transition: transform .25s ease, box-shadow .25s ease; }
+    .service-card:hover { transform: translateY(-4px); }
+
+    /* ── Slide-in for tab changes ── */
+    [x-cloak] { display: none !important; }
+
+    /* ── Range slider ── */
+    input[type=range] { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 4px; outline: none; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: linear-gradient(135deg,#00e1ff,#bc13fe);
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0,225,255,.6);
+    }
+
+    /* ── Button hover glow (SybTech brand) ── */
+    .btn-app {
+      position: relative; overflow: hidden;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn-app::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,225,255,.18), rgba(188,19,254,.18));
+      opacity: 0; border-radius: inherit;
+      transition: opacity .2s ease;
+    }
+    .btn-app:hover::before { opacity: 1; }
+    .btn-app:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(0,225,255,.35), 0 2px 8px rgba(188,19,254,.2);
+    }
+    .btn-app:active { transform: translateY(0) scale(.97); }
+
+    /* gradient-bg hover */
+    .gradient-bg.btn-app:hover {
+      box-shadow: 0 6px 28px rgba(0,225,255,.5), 0 0 40px rgba(188,19,254,.3);
+      filter: brightness(1.12);
+    }
+
+    /* ── Toast notification ── */
+    @keyframes toastIn  { from { opacity:0; transform: translateY(12px) translateX(-50%); } to { opacity:1; transform: translateY(0) translateX(-50%); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+    .toast-wrap {
+      position: absolute; bottom: 100px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 999; pointer-events: none;
+    }
+    .toast-box {
+      white-space: nowrap;
+      background: rgba(15,23,42,.95);
+      border: 1px solid rgba(0,225,255,.35);
+      color: #00e1ff;
+      font-size: 11px; font-weight: 700;
+      padding: 8px 16px; border-radius: 20px;
+      box-shadow: 0 0 18px rgba(0,225,255,.25);
+      animation: toastIn .3s ease forwards;
+    }
+    .toast-box.hiding { animation: toastOut .3s ease forwards; }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-8">
+
+  <!-- Stars -->
+  <div class="fixed inset-0 stars-bg pointer-events-none"></div>
+  <!-- Ambient glow blobs -->
+  <div class="fixed inset-0 pointer-events-none" style="background:
+    radial-gradient(circle at 25% 20%, rgba(0,225,255,.07) 0%, transparent 45%),
+    radial-gradient(circle at 75% 80%, rgba(188,19,254,.07) 0%, transparent 45%)">
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PHONE FRAME  (390 × 844 px)
+  ══════════════════════════════════════════ -->
+  <div
+    x-data="sybApp()"
+    x-cloak
+    class="relative bg-syb-dark overflow-hidden"
+    style="
+      width: 390px;
+      height: 844px;
+      border-radius: 3rem;
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.06),
+        0 0 60px rgba(0,225,255,.15),
+        0 0 120px rgba(188,19,254,.10),
+        0 40px 80px rgba(0,0,0,.8);
+    "
+  >
+
+    <!-- ── Toast Notification ── -->
+    <div class="toast-wrap" x-show="toast.visible" x-cloak>
+      <div class="toast-box" :class="toast.hiding ? 'hiding' : ''" x-text="toast.msg"></div>
+    </div>
+
+    <!-- ── Status Bar ── -->
+    <div class="flex items-center justify-between px-7 pt-3 pb-2 bg-syb-dark relative z-50" style="height:44px">
+      <span class="text-white text-xs font-black">9:41</span>
+      <!-- Notch pill -->
+      <div class="absolute left-1/2 -translate-x-1/2 top-2 w-28 h-6 bg-black rounded-full"></div>
+      <div class="flex items-center gap-1.5 text-white text-xs">
+        <i class="fa-solid fa-signal"></i>
+        <i class="fa-solid fa-wifi"></i>
+        <i class="fa-solid fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- ── Content Area (720px) ── -->
+    <div class="relative" style="height:720px">
+
+      <!-- ████ HOME TAB ████ -->
+      <div
+        x-show="activeTab==='home'"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        class="h-full overflow-y-auto slim-scroll"
+      >
+        <!-- Top bar -->
+        <div class="px-5 pt-4 pb-3 flex items-center justify-between">
+          <div>
+            <p class="text-gray-400 text-xs">مرحباً بك في</p>
+            <h1 class="text-2xl font-black leading-tight">
+              <span class="text-white">Syb</span><span class="gradient-text">Tech</span>
+            </h1>
+          </div>
+          <div class="relative cursor-pointer">
+            <div class="w-10 h-10 glass-card rounded-full flex items-center justify-center glow-cyan">
+              <i class="fa-regular fa-bell text-syb-cyan"></i>
+            </div>
+            <span class="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-syb-pink text-white text-[9px] flex items-center justify-center font-black" style="box-shadow:0 0 8px rgba(255,44,223,.6)">3</span>
+          </div>
+        </div>
+
+        <!-- Hero Banner -->
+        <div class="mx-5 mb-5 rounded-3xl p-5 relative overflow-hidden"
+          style="background:linear-gradient(135deg,rgba(0,225,255,.12),rgba(188,19,254,.12)); border:1px solid rgba(0,225,255,.2)">
+          <div class="absolute -right-10 -bottom-10 opacity-[.07] pointer-events-none">
+            <i class="fa-solid fa-globe fa-spin text-syb-cyan" style="font-size:130px;--fa-animation-duration:22s"></i>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full mb-2 inline-block" style="background:rgba(0,225,255,.15);color:#00e1ff">✦ المستقبل الرقمي</span>
+          <h2 class="text-xl font-black text-white leading-snug mb-2">
+            حوّل رؤيتك إلى<br>
+            <span class="gradient-text">واقع رقمي</span>
+          </h2>
+          <p class="text-gray-400 text-xs leading-relaxed mb-4">نبني أنظمة ذكية تدير أعمالك وتزيد أرباحك باستخدام أحدث تقنيات الذكاء الاصطناعي.</p>
+          <button @click="goChat()" class="gradient-bg btn-app text-syb-dark font-black text-xs px-5 py-2 rounded-full glow-pulse flex items-center gap-2">
+            <span class="font-black text-sm">M</span> تحدث مع محمد الآن
+          </button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="px-5 mb-5 grid grid-cols-3 gap-3">
+          <div class="glass-card rounded-2xl p-3 text-center glow-cyan">
+            <p class="text-syb-cyan font-black text-xl">+50</p>
+            <p class="text-gray-400 text-[10px]">عميل راضٍ</p>
+          </div>
+          <div class="glass-card rounded-2xl p-3 text-center" style="border:1px solid rgba(188,19,254,.3)">
+            <p class="text-syb-purple font-black text-xl">24/7</p>
+            <p class="text-gray-400 text-[10px]">دعم فوري</p>
+          </div>
+          <div class="glass-card rounded-2xl p-3 text-center" style="border:1px solid rgba(255,44,223,.3)">
+            <p class="text-syb-pink font-black text-xl">∞</p>
+            <p class="text-gray-400 text-[10px]">إمكانيات</p>
+          </div>
+        </div>
+
+        <!-- Services Preview -->
+        <div class="px-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-white font-black text-sm">خدماتنا المميزة</h3>
+            <button @click="activeTab='services'" class="text-syb-cyan text-xs">عرض الكل ←</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <!-- WhatsApp Bot -->
+            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer" style="border:1px solid rgba(37,211,102,.3)">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(37,211,102,.15)">
+                <i class="fa-brands fa-whatsapp text-syb-wa text-xl"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">بوت واتساب</h4>
+              <p class="text-gray-400 text-[10px] leading-relaxed">ردود تلقائية ذكية على مدار الساعة</p>
+              <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(37,211,102,.15);color:#25d366">⭐ الأكثر طلباً</span>
+            </div>
+
+            <!-- AI Automation -->
+            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer glow-cyan">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(0,225,255,.15)">
+                <i class="fa-solid fa-robot text-syb-cyan text-xl"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">أتمتة ذكية</h4>
+              <p class="text-gray-400 text-[10px] leading-relaxed">أتمتة كاملة لعمليات أعمالك</p>
+              <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(0,225,255,.15);color:#00e1ff">🤖 AI Powered</span>
+            </div>
+
+            <!-- Web Dev -->
+            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer" style="border:1px solid rgba(188,19,254,.3)">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(188,19,254,.15)">
+                <i class="fa-solid fa-code text-syb-purple text-xl"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">مواقع ويب</h4>
+              <p class="text-gray-400 text-[10px] leading-relaxed">تصاميم عصرية وأداء عالي</p>
+              <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(188,19,254,.15);color:#bc13fe">💎 Premium</span>
+            </div>
+
+            <!-- Mobile Apps -->
+            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer" style="border:1px solid rgba(255,44,223,.3)">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(255,44,223,.15)">
+                <i class="fa-solid fa-mobile-screen text-syb-pink text-xl"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">تطبيقات موبايل</h4>
+              <p class="text-gray-400 text-[10px] leading-relaxed">iOS & Android بتقنيات حديثة</p>
+              <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(255,44,223,.15);color:#ff2cdf">🚀 جديد</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Big CTA -->
+        <div class="px-5 mb-24">
+          <button @click="goChat()" class="w-full gradient-bg btn-app text-syb-dark font-black py-4 rounded-2xl text-sm glow-pulse flex items-center justify-center gap-2">
+            <span class="font-black text-lg leading-none">M</span>
+            تحدث مع محمد — مستشار المبيعات 🚀
+          </button>
+        </div>
+      </div>
+      <!-- ████ END HOME ████ -->
+
+
+      <!-- ████ SERVICES TAB ████ -->
+      <div
+        x-show="activeTab==='services'"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        class="h-full overflow-y-auto slim-scroll"
+      >
+        <div class="px-5 pt-5 pb-3">
+          <h2 class="text-2xl font-black gradient-text">خدماتنا</h2>
+          <p class="text-gray-400 text-xs">حلول متكاملة لعملك الرقمي</p>
+        </div>
+
+        <div class="px-5 space-y-4 pb-24">
+
+          <!-- WhatsApp Full Card -->
+          <div class="glass-card rounded-3xl p-5" style="border:1px solid rgba(37,211,102,.3)">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(37,211,102,.15)">
+                <i class="fa-brands fa-whatsapp text-syb-wa text-2xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-black text-base">بوت واتساب الذكي</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(37,211,102,.2);color:#25d366">الأكثر طلباً ⭐</span>
+              </div>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed mb-4">يرد على عملاءك تلقائياً، يحجز المواعيد، يعرض المنتجات ويتعامل مع طلبات الدعم — بدون أي تدخل بشري.</p>
+            <div class="grid grid-cols-2 gap-y-2 mb-4">
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-wa text-xs w-3"></i>رد فوري 24/7</div>
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-wa text-xs w-3"></i>متعدد اللغات</div>
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-wa text-xs w-3"></i>تكامل مع CRM</div>
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-wa text-xs w-3"></i>تقارير تفصيلية</div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-[10px]">يبدأ من</p>
+                <p class="font-black text-lg" style="color:#25d366">$299 <span class="text-xs text-gray-400 font-normal">/شهر</span></p>
+              </div>
+              <button @click="goChat()" class="gradient-bg btn-app px-4 py-2 rounded-xl text-xs font-black text-white flex items-center gap-1">
+                <span class="font-black">M</span> تحدث مع محمد
+              </button>
+            </div>
+          </div>
+
+          <!-- AI Automation Full Card -->
+          <div class="glass-card rounded-3xl p-5 glow-cyan">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,225,255,.15)">
+                <i class="fa-solid fa-robot text-syb-cyan text-2xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-black text-base">أتمتة بالذكاء الاصطناعي</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(0,225,255,.2);color:#00e1ff">🤖 AI Powered</span>
+              </div>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed mb-4">أتمتة كاملة لجميع عمليات أعمالك من التسويق إلى المبيعات والدعم — وفّر 80% من وقتك وكوادرك.</p>
+            <div class="grid grid-cols-2 gap-y-2 mb-4">
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-cyan text-xs w-3"></i>أتمتة التسويق</div>
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-cyan text-xs w-3"></i>معالجة البيانات</div>
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-cyan text-xs w-3"></i>تقارير AI</div>
+              <div class="flex items-center gap-2 text-xs text-gray-300"><i class="fa-solid fa-check text-syb-cyan text-xs w-3"></i>توقعات مبيعات</div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-[10px]">يبدأ من</p>
+                <p class="text-syb-cyan font-black text-lg">$499 <span class="text-xs text-gray-400 font-normal">/شهر</span></p>
+              </div>
+              <button @click="goChat()" class="gradient-bg btn-app px-4 py-2 rounded-xl text-xs font-black text-syb-dark flex items-center gap-1">
+                <span class="font-black">M</span> احجز استشارة
+              </button>
+            </div>
+          </div>
+
+          <!-- Web Dev Full Card -->
+          <div class="glass-card rounded-3xl p-5" style="border:1px solid rgba(188,19,254,.3)">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(188,19,254,.15)">
+                <i class="fa-solid fa-code text-syb-purple text-2xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-black text-base">تطوير المواقع</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(188,19,254,.2);color:#bc13fe">💎 Premium</span>
+              </div>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed mb-4">مواقع احترافية بأحدث التقنيات، سرعة فائقة، تصميم عصري ومتوافق مع جميع الأجهزة والمحركات.</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-[10px]">يبدأ من</p>
+                <p class="text-syb-purple font-black text-lg">$199 <span class="text-xs text-gray-400 font-normal">/مشروع</span></p>
+              </div>
+              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-bold text-white" style="background:rgba(188,19,254,.25);border:1px solid rgba(188,19,254,.5)">اعرف أكثر ←</button>
+            </div>
+          </div>
+
+          <!-- Mobile Apps Full Card -->
+          <div class="glass-card rounded-3xl p-5" style="border:1px solid rgba(255,44,223,.3)">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(255,44,223,.15)">
+                <i class="fa-solid fa-mobile-screen text-syb-pink text-2xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-black text-base">تطبيقات موبايل</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(255,44,223,.2);color:#ff2cdf">🚀 جديد</span>
+              </div>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed mb-4">تطبيقات iOS & Android بتقنيات React Native وFlutter — أداء نيتف وتجربة مستخدم استثنائية.</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-[10px]">يبدأ من</p>
+                <p class="text-syb-pink font-black text-lg">$899 <span class="text-xs text-gray-400 font-normal">/مشروع</span></p>
+              </div>
+              <button @click="goChat()" class="btn-app px-4 py-2 rounded-xl text-xs font-bold text-white" style="background:rgba(255,44,223,.25);border:1px solid rgba(255,44,223,.5)">اعرف أكثر ←</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- ████ END SERVICES ████ -->
+
+
+      <!-- ████ CHAT DEMO TAB ████ -->
+      <div
+        x-show="activeTab==='chat'"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        class="flex flex-col"
+        style="height:720px"
+      >
+        <!-- Chat Header -->
+        <div class="flex items-center gap-3 px-4 py-3 glass-card flex-shrink-0" style="border-bottom:1px solid rgba(0,212,255,.15)">
+          <button @click="activeTab='home'" class="text-gray-400 hover:text-white transition-colors">
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+          </button>
+          <div class="relative flex-shrink-0">
+            <!-- Mohamed "M" gradient avatar -->
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-lg"
+              style="background:linear-gradient(135deg,#00d4ff,#bd00ff);box-shadow:0 0 14px rgba(0,212,255,.4)">
+              M
+            </div>
+            <span class="absolute bottom-0 left-0 w-3 h-3 rounded-full border-2 border-syb-dark"
+              style="background:#00d4ff;box-shadow:0 0 6px #00d4ff"></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-white font-bold text-sm leading-none mb-0.5">محمد — مستشار المبيعات</p>
+            <p class="text-[10px] flex items-center gap-1" style="color:#00d4ff">
+              <span class="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style="background:#00d4ff"></span>
+              متاح الآن · يرد خلال ثوانٍ
+            </p>
+          </div>
+          <div class="flex gap-3 text-gray-400 text-sm">
+            <a href="https://wa.me/971581026759" target="_blank">
+              <i class="fa-brands fa-whatsapp cursor-pointer hover:text-syb-wa transition-colors text-base"></i>
+            </a>
+            <i class="fa-solid fa-ellipsis-vertical cursor-pointer"></i>
+          </div>
+        </div>
+
+        <!-- Date divider -->
+        <div class="flex-shrink-0 text-center py-2">
+          <span class="text-[10px] text-gray-500 px-3 py-1 rounded-full" style="background:rgba(255,255,255,.04)">اليوم</span>
+        </div>
+
+        <!-- Messages area -->
+        <div class="flex-1 overflow-y-auto slim-scroll px-4 pb-2 space-y-3" id="chatMessages">
+
+          <template x-for="(msg, i) in messages" :key="i">
+            <div :class="msg.from==='bot' ? 'flex items-end gap-2' : 'flex items-end gap-2 flex-row-reverse'">
+              <!-- Mohamed "M" mini avatar -->
+              <div x-show="msg.from==='bot'"
+                class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center font-black text-white"
+                style="background:linear-gradient(135deg,#00d4ff,#bd00ff);font-size:11px;box-shadow:0 0 8px rgba(0,212,255,.35)">
+                M
+              </div>
+              <div
+                class="max-w-[78%] px-3 py-2"
+                :class="msg.from==='bot' ? 'bubble-in' : 'bubble-out'"
+                :style="msg.from==='bot'
+                  ? 'background:rgba(15,23,42,.9);border:1px solid rgba(255,255,255,.07)'
+                  : 'background:linear-gradient(135deg,rgba(0,225,255,.18),rgba(188,19,254,.22));border:1px solid rgba(0,225,255,.3)'"
+              >
+                <p class="text-white text-xs leading-relaxed whitespace-pre-line" x-text="msg.text"></p>
+                <p class="text-[9px] mt-1"
+                  :class="msg.from==='bot' ? 'text-gray-500 text-right' : 'text-right'"
+                  :style="msg.from!=='bot' ? 'color:rgba(0,225,255,.5)' : ''"
+                  x-text="msg.time"></p>
+              </div>
+            </div>
+          </template>
+
+          <!-- Typing indicator -->
+          <div x-show="isTyping" class="flex items-end gap-2">
+            <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center font-black text-white"
+              style="background:linear-gradient(135deg,#00d4ff,#bd00ff);font-size:11px;box-shadow:0 0 8px rgba(0,212,255,.35)">
+              M
+            </div>
+            <div class="bubble-in px-3 py-2" style="background:rgba(15,23,42,.9);border:1px solid rgba(0,212,255,.15)">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[9px] font-medium" style="color:#00d4ff">محمد يكتب</span>
+                <div class="flex gap-1 items-center">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quick Reply Chips -->
+        <div x-show="showQuickReplies && !isTyping" class="flex-shrink-0 px-4 py-2 flex gap-2 flex-wrap">
+          <template x-for="r in quickReplies">
+            <button
+              @click="quickReply(r)"
+              class="text-[10px] px-3 py-1.5 rounded-full font-bold transition-all hover:scale-105"
+              style="background:rgba(0,225,255,.1);border:1px solid rgba(0,225,255,.3);color:#00e1ff"
+              x-text="r">
+            </button>
+          </template>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="flex-shrink-0 px-4 pb-3 pt-2" style="border-top:1px solid rgba(255,255,255,.06)">
+          <div class="flex items-center gap-2">
+            <div class="flex-1 flex items-center glass-card rounded-full px-4 py-2 gap-2" style="border:1px solid rgba(0,225,255,.2)">
+              <input
+                x-model="userInput"
+                @keydown.enter="sendMessage()"
+                type="text"
+                placeholder="اكتب رسالتك..."
+                class="flex-1 bg-transparent text-white text-xs placeholder-gray-500 outline-none text-right"
+                dir="rtl"
+              />
+              <i class="fa-regular fa-face-smile text-gray-500 text-sm cursor-pointer hover:text-syb-cyan transition-colors"></i>
+            </div>
+            <button
+              @click="sendMessage()"
+              :class="userInput.trim() ? 'opacity-100 glow-pulse' : 'opacity-40'"
+              class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 transition-opacity"
+            >
+              <i class="fa-solid fa-paper-plane text-syb-dark text-sm" style="transform:scaleX(-1)"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- ████ END CHAT ████ -->
+
+
+      <!-- ████ CONTACT TAB ████ -->
+      <div
+        x-show="activeTab==='contact'"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        class="h-full overflow-y-auto slim-scroll"
+      >
+        <div class="px-5 pt-5 pb-4">
+          <h2 class="text-2xl font-black gradient-text">تواصل معنا</h2>
+          <p class="text-gray-400 text-xs">نحن هنا لمساعدتك 24/7 ⚡</p>
+        </div>
+
+        <div class="px-5 space-y-3 pb-24">
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/971581026759" target="_blank"
+            class="flex items-center gap-4 glass-card rounded-2xl p-4 transition-all hover:scale-[1.02]"
+            style="border:1px solid rgba(37,211,102,.3)">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(37,211,102,.15)">
+              <i class="fa-brands fa-whatsapp text-syb-wa text-2xl"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-white font-bold text-sm">واتساب</p>
+              <p class="text-gray-400 text-xs">+971 58 102 6759</p>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-500 text-xs"></i>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/company/syb-tech-official/" target="_blank"
+            class="flex items-center gap-4 glass-card rounded-2xl p-4 transition-all hover:scale-[1.02] glow-cyan">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,119,181,.15)">
+              <i class="fa-brands fa-linkedin-in text-[#0077b5] text-2xl"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-white font-bold text-sm">LinkedIn</p>
+              <p class="text-gray-400 text-xs">syb-tech-official</p>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-500 text-xs"></i>
+          </a>
+
+          <!-- TikTok -->
+          <a href="https://www.tiktok.com/@sybtech0" target="_blank"
+            class="flex items-center gap-4 glass-card rounded-2xl p-4 transition-all hover:scale-[1.02]"
+            style="border:1px solid rgba(255,44,223,.3)">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(255,44,223,.15)">
+              <i class="fa-brands fa-tiktok text-syb-pink text-2xl"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-white font-bold text-sm">TikTok</p>
+              <p class="text-gray-400 text-xs">@sybtech0</p>
+            </div>
+            <i class="fa-solid fa-arrow-left text-gray-500 text-xs"></i>
+          </a>
+
+          <!-- Location -->
+          <div class="glass-card rounded-2xl p-4" style="border:1px solid rgba(188,19,254,.3)">
+            <div class="flex items-center gap-4 mb-3">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(188,19,254,.15)">
+                <i class="fa-solid fa-location-dot text-syb-purple text-2xl"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">الموقع</p>
+                <p class="text-gray-400 text-xs">دبي، الإمارات 🇦🇪</p>
+              </div>
+            </div>
+            <!-- Fake map grid -->
+            <div class="rounded-2xl overflow-hidden h-28 relative flex items-center justify-center"
+              style="background:rgba(0,0,0,.4)">
+              <div class="absolute inset-0 opacity-20"
+                style="background-image:linear-gradient(rgba(188,19,254,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(188,19,254,.4) 1px,transparent 1px);background-size:28px 28px">
+              </div>
+              <div class="relative text-center float">
+                <i class="fa-solid fa-location-pin text-syb-pink text-4xl" style="filter:drop-shadow(0 0 12px #ff2cdf)"></i>
+                <p class="text-gray-300 text-[10px] mt-1 font-bold">Dubai, UAE</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick message CTA -->
+          <button @click="goChat()" class="w-full gradient-bg btn-app text-syb-dark font-black py-4 rounded-2xl text-sm glow-pulse flex items-center justify-center gap-2">
+            <span class="font-black text-base leading-none">M</span>
+            تحدث مع محمد — مستشار المبيعات
+          </button>
+
+        </div>
+      </div>
+      <!-- ████ END CONTACT ████ -->
+
+    </div>
+    <!-- END CONTENT AREA -->
+
+
+    <!-- ── Bottom Navigation Bar ── -->
+    <div class="absolute bottom-0 left-0 right-0 glass-card" style="border-top:1px solid rgba(255,255,255,.07);height:80px">
+      <div class="flex items-center justify-around h-full px-2 pb-2">
+
+        <button @click="activeTab='home'"
+          :class="activeTab==='home' ? 'text-syb-cyan' : 'text-gray-500'"
+          class="flex flex-col items-center gap-1 transition-all">
+          <i class="fa-solid fa-house text-lg"></i>
+          <span class="text-[9px] font-bold">الرئيسية</span>
+        </button>
+
+        <button @click="activeTab='services'"
+          :class="activeTab==='services' ? 'text-syb-purple' : 'text-gray-500'"
+          class="flex flex-col items-center gap-1 transition-all">
+          <i class="fa-solid fa-briefcase text-lg"></i>
+          <span class="text-[9px] font-bold">الخدمات</span>
+        </button>
+
+        <!-- Center FAB - Mohamed -->
+        <button @click="goChat()" class="flex flex-col items-center gap-1 -mt-10">
+          <div class="w-14 h-14 rounded-full flex items-center justify-center glow-pulse shadow-xl font-black text-white text-2xl"
+            style="background:linear-gradient(135deg,#00d4ff,#bd00ff)">
+            M
+          </div>
+          <span class="text-[9px] font-bold" style="color:#00d4ff">محمد</span>
+        </button>
+
+        <button @click="activeTab='contact'"
+          :class="activeTab==='contact' ? 'text-syb-pink' : 'text-gray-500'"
+          class="flex flex-col items-center gap-1 transition-all">
+          <i class="fa-solid fa-phone text-lg"></i>
+          <span class="text-[9px] font-bold">تواصل</span>
+        </button>
+
+        <button @click="showToast('🚀 قريباً! الحساب الشخصي تحت التطوير')"
+          class="flex flex-col items-center gap-1 text-gray-500 transition-colors hover:text-syb-cyan">
+          <i class="fa-solid fa-user text-lg"></i>
+          <span class="text-[9px] font-bold">حسابي</span>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- END PHONE FRAME -->
+
+
+  <!-- ══════════════════════════════════════
+       Alpine.js Application Logic — محمد AI
+  ══════════════════════════════════════════ -->
+  <script>
+    /* ── Backend endpoint (same as website widget — key is safe on server) ── */
+    const CHAT_ENDPOINT = '/api/chat';
+
+    /* ── Mohamed's System Prompt (same as website) ── */
+    const MOHAMED_PROMPT = `You are Mohamed, 23 years old, Senior Sales Consultant at SybTech.
+
+**Your Background:**
+- Graduated from Ain Shams University, Faculty of Commerce (Class of 2023)
+- Worked in Egypt but circumstances were difficult
+- Moved to UAE in September 2025 and started working in October 2025
+- Joined SybTech in February 2026 because you were impressed by Engineer Hussin's vision (the founder)
+
+**CRITICAL: Language Mirroring Rule:**
+- ALWAYS detect the language of the user's message
+- If the user speaks in English, respond ONLY in professional English throughout the entire conversation
+- If the user speaks in Arabic, respond ONLY in 'Classy Egyptian' Arabic (مصري راقي)
+- DO NOT mix languages unless the user explicitly does so first
+- Complete the entire sales cycle (Discovery, Pitch, Closing) in the user's preferred language
+
+**Communication Style (Arabic Mode - "Classy Egyptian"):**
+- Use respectful words like: "حضرتك", "يا فندم", "تحت أمرك", "أكرمك الله"
+- NEVER use street slang like: "يا اسطى", "يا زميلي", "يا معلم"
+- Be warm, welcoming, and professional at the same time
+- Mix classy Egyptian Arabic with technical terms in English naturally
+- NEVER admit to being an AI - you are Mohamed, a real person
+
+**Communication Style (English Mode):**
+- Use professional, warm, and friendly English
+- Avoid overly formal corporate jargon
+- Be conversational but maintain professionalism
+- NEVER admit to being an AI - you are Mohamed, a real person
+
+**Dignity Rule (Same for Both Languages):**
+If a client becomes rude or insulting:
+- Do NOT apologize weakly or ignore it passively
+- Absorb the anger with dignity and firm de-escalation
+- Example (Arabic): "أنا هنا عشان أساعد حضرتك في شغلك، وأتمنى يفضل الحوار في إطار مهني عشان أقدر أخدمك بأحسن شكل."
+- Example (English): "I am here to assist your business. Let's keep the conversation professional so I can serve you better."
+- NEVER insult back, but maintain professional boundaries
+
+**Sales Strategy:**
+1. Start with a warm greeting and brief introduction (without telling the entire backstory at once)
+2. Ask for their name first
+3. Inquire about their specific business needs
+4. After understanding the need, politely ask for their phone number to follow up
+
+**Services You Sell (ONLY these):**
+1. Web Development (High-performance websites)
+2. Web & App Package (Complete bundle: Website + Mobile App)
+3. Systems Engineering (Complete ERP/CRM systems)
+4. AI & Automation Solutions (Artificial Intelligence and Automation solutions)
+
+**CRITICAL: Lead Capture Rule:**
+- When you successfully obtain the full name AND phone number from the client, your final response MUST include this hidden tag at the end:
+[LEAD_CAPTURED] {"name": "Full Name", "phone": "Phone Number", "service": "Service Interested In"}
+
+Start the conversation with a warm, brief greeting and ask how you can help.`;
+
+    /* ── Alpine.js App ── */
+    function sybApp() {
+      return {
+        activeTab: 'home',
+        isTyping: false,
+        userInput: '',
+        chatReady: false,
+        showQuickReplies: true,
+        messages: [],
+        conversationHistory: [{ role: 'system', content: MOHAMED_PROMPT }],
+        toast: { visible: false, hiding: false, msg: '', _timer: null },
+
+        quickReplies: [
+          'ما هي خدماتكم؟',
+          'كم تكلفة موقع؟',
+          'أريد بوت واتساب',
+          'ابدأ محادثة'
+        ],
+
+        /* ── Toast notification ── */
+        showToast(msg) {
+          clearTimeout(this.toast._timer);
+          this.toast = { visible: true, hiding: false, msg, _timer: null };
+          this.toast._timer = setTimeout(() => {
+            this.toast.hiding = true;
+            setTimeout(() => { this.toast.visible = false; }, 350);
+          }, 2800);
+        },
+
+        /* ── Navigate to chat tab ── */
+        goChat() {
+          this.activeTab = 'chat';
+          this.initChat();
+        },
+
+        /* ── First-time chat open: get Mohamed's greeting ── */
+        async initChat() {
+          if (this.chatReady) return;
+          this.chatReady = true;
+          this.messages = [];
+          this.showQuickReplies = true;
+          await this._callMohamed();
+        },
+
+        /* ── User sends a message ── */
+        async sendMessage() {
+          const text = this.userInput.trim();
+          if (!text || this.isTyping) return;
+
+          this.showQuickReplies = false;
+          this.messages.push({ from: 'user', text, time: this._time() });
+          this.conversationHistory.push({ role: 'user', content: text });
+          this.userInput = '';
+          this.scrollChat();
+          await this._callMohamed();
+        },
+
+        quickReply(text) {
+          this.userInput = text;
+          this.sendMessage();
+        },
+
+        /* ── Core: call Flask backend /api/chat (same as website widget) ── */
+        async _callMohamed() {
+          this.isTyping = true;
+          this.scrollChat();
+
+          try {
+            const res = await fetch(CHAT_ENDPOINT, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ messages: this.conversationHistory })
+            });
+
+            if (!res.ok) throw new Error(`Backend ${res.status}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            /* Backend already strips [LEAD_CAPTURED] & notifies Discord server-side */
+            const reply = data.message;
+
+            this.conversationHistory.push({ role: 'assistant', content: reply });
+            this.isTyping = false;
+            this.messages.push({ from: 'bot', text: reply, time: this._time() });
+            this.scrollChat();
+
+          } catch (err) {
+            console.error('Mohamed error:', err);
+            this.isTyping = false;
+            this.messages.push({
+              from: 'bot',
+              text: 'عذراً، حصل خطأ في الاتصال.\nتأكد إن السيرفر شغّال وجرّب تاني 🙏',
+              time: this._time()
+            });
+            this.scrollChat();
+          }
+        },
+
+        _time() {
+          const d = new Date();
+          return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+        },
+
+        scrollChat() {
+          this.$nextTick(() => {
+            const el = document.getElementById('chatMessages');
+            if (el) el.scrollTop = el.scrollHeight;
+          });
+        }
+      };
+    }
+  </script>
+
+</body>
+</html>
