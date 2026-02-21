@@ -175,6 +175,33 @@
       animation: toastIn .3s ease forwards;
     }
     .toast-box.hiding { animation: toastOut .3s ease forwards; }
+
+    /* ── Global cursor pointer for all interactive elements ── */
+    button, a, [role="button"],
+    .cursor-pointer, .service-card, .nav-item { cursor: pointer !important; }
+
+    /* ── Service Bottom Sheet ── */
+    .svc-sheet {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: #0b1628;
+      border-top: 1px solid rgba(0,225,255,.2);
+      border-radius: 24px 24px 0 0;
+      max-height: 80%;
+      overflow-y: auto;
+      padding-bottom: 90px;
+      z-index: 160;
+    }
+    .svc-sheet-enter { animation: sheetUp .28s cubic-bezier(.32,.72,0,1) forwards; }
+    .svc-sheet-leave { animation: sheetDown .22s ease forwards; }
+    @keyframes sheetUp   { from { transform:translateY(100%); } to { transform:translateY(0); } }
+    @keyframes sheetDown { from { transform:translateY(0); }    to { transform:translateY(100%); } }
+
+    /* ── Notification dot pulse ── */
+    .notif-dot { animation: notifPulse 2s ease-in-out infinite; }
+    @keyframes notifPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(255,44,223,.6); }
+      50%      { box-shadow: 0 0 0 5px rgba(255,44,223,0); }
+    }
   </style>
 </head>
 
@@ -243,11 +270,13 @@
               <span class="text-white">Syb</span><span class="gradient-text">Tech</span>
             </h1>
           </div>
-          <div class="relative cursor-pointer">
+          <div @click="showToast('📣 3 إشعارات جديدة — محمد ينتظر ردّك!')"
+            class="relative cursor-pointer">
             <div class="w-10 h-10 glass-card rounded-full flex items-center justify-center glow-cyan">
               <i class="fa-regular fa-bell text-syb-cyan"></i>
             </div>
-            <span class="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-syb-pink text-white text-[9px] flex items-center justify-center font-black" style="box-shadow:0 0 8px rgba(255,44,223,.6)">3</span>
+            <span class="notif-dot absolute -top-1 -left-1 w-4 h-4 rounded-full bg-syb-pink text-white text-[9px] flex items-center justify-center font-black"
+              style="box-shadow:0 0 8px rgba(255,44,223,.6)">3</span>
           </div>
         </div>
 
@@ -295,28 +324,43 @@
           </div>
 
           <div class="grid grid-cols-2 gap-3">
+
             <!-- WhatsApp Bot -->
-            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer" style="border:1px solid rgba(37,211,102,.3)">
+            <div @click="openService('wa')"
+              class="service-card glass-card rounded-2xl p-4 cursor-pointer relative"
+              style="border:1px solid rgba(37,211,102,.3)">
+              <div class="absolute top-2 left-2 w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(37,211,102,.15)">
+                <i class="fa-solid fa-plus text-[8px]" style="color:#25d366"></i>
+              </div>
               <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(37,211,102,.15)">
                 <i class="fa-brands fa-whatsapp text-syb-wa text-xl"></i>
               </div>
               <h4 class="text-white font-bold text-sm mb-1">بوت واتساب</h4>
-              <p class="text-gray-400 text-[10px] leading-relaxed">ردود تلقائية ذكية على مدار الساعة</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed">ردود تلقائية ذكية 24/7</p>
               <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(37,211,102,.15);color:#25d366">⭐ الأكثر طلباً</span>
             </div>
 
             <!-- AI Automation -->
-            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer glow-cyan">
+            <div @click="openService('ai')"
+              class="service-card glass-card rounded-2xl p-4 cursor-pointer glow-cyan relative">
+              <div class="absolute top-2 left-2 w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(0,225,255,.15)">
+                <i class="fa-solid fa-plus text-[8px]" style="color:#00e1ff"></i>
+              </div>
               <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(0,225,255,.15)">
                 <i class="fa-solid fa-robot text-syb-cyan text-xl"></i>
               </div>
               <h4 class="text-white font-bold text-sm mb-1">أتمتة ذكية</h4>
-              <p class="text-gray-400 text-[10px] leading-relaxed">أتمتة كاملة لعمليات أعمالك</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed">أتمتة كاملة للأعمال</p>
               <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(0,225,255,.15);color:#00e1ff">🤖 AI Powered</span>
             </div>
 
             <!-- Web Dev -->
-            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer" style="border:1px solid rgba(188,19,254,.3)">
+            <div @click="openService('web')"
+              class="service-card glass-card rounded-2xl p-4 cursor-pointer relative"
+              style="border:1px solid rgba(188,19,254,.3)">
+              <div class="absolute top-2 left-2 w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(188,19,254,.15)">
+                <i class="fa-solid fa-plus text-[8px]" style="color:#bc13fe"></i>
+              </div>
               <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(188,19,254,.15)">
                 <i class="fa-solid fa-code text-syb-purple text-xl"></i>
               </div>
@@ -326,14 +370,20 @@
             </div>
 
             <!-- Mobile Apps -->
-            <div class="service-card glass-card rounded-2xl p-4 cursor-pointer" style="border:1px solid rgba(255,44,223,.3)">
+            <div @click="openService('mobile')"
+              class="service-card glass-card rounded-2xl p-4 cursor-pointer relative"
+              style="border:1px solid rgba(255,44,223,.3)">
+              <div class="absolute top-2 left-2 w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(255,44,223,.15)">
+                <i class="fa-solid fa-plus text-[8px]" style="color:#ff2cdf"></i>
+              </div>
               <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(255,44,223,.15)">
                 <i class="fa-solid fa-mobile-screen text-syb-pink text-xl"></i>
               </div>
               <h4 class="text-white font-bold text-sm mb-1">تطبيقات موبايل</h4>
-              <p class="text-gray-400 text-[10px] leading-relaxed">iOS & Android بتقنيات حديثة</p>
+              <p class="text-gray-400 text-[10px] leading-relaxed">iOS & Android حديثة</p>
               <span class="mt-2 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold" style="background:rgba(255,44,223,.15);color:#ff2cdf">🚀 جديد</span>
             </div>
+
           </div>
         </div>
 
@@ -772,6 +822,18 @@
           <p class="text-gray-400 text-xs">نحن هنا لمساعدتك 24/7 ⚡</p>
         </div>
 
+        <!-- WhatsApp Hero CTA -->
+        <div class="px-5 mb-3">
+          <a href="https://wa.me/971581026759?text=مرحباً، أريد الاستفسار عن خدماتكم"
+            target="_blank"
+            class="btn-app w-full py-3.5 rounded-2xl text-sm font-black flex items-center justify-center gap-2"
+            style="background:linear-gradient(135deg,#128c7e,#25d366);color:#fff;
+                   box-shadow:0 0 20px rgba(37,211,102,.4),0 0 40px rgba(18,140,126,.2);">
+            <i class="fa-brands fa-whatsapp text-xl"></i>
+            ابدأ محادثة على واتساب الآن
+          </a>
+        </div>
+
         <div class="px-5 space-y-3 pb-24">
 
           <!-- WhatsApp -->
@@ -931,6 +993,110 @@
       </div>
     </div>
 
+    <!-- ════════════════════════════════════════
+         SERVICE DETAIL BOTTOM SHEET
+    ════════════════════════════════════════ -->
+    <div
+      x-show="activeService !== null"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      @click.self="closeService()"
+      class="absolute inset-0"
+      style="z-index:150;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)"
+    >
+      <div
+        x-show="activeService !== null"
+        x-transition:enter="transition ease-out duration-280"
+        x-transition:enter-start="opacity-0 translate-y-full"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-full"
+        class="svc-sheet slim-scroll"
+      >
+        <!-- Drag Handle -->
+        <div class="flex justify-center pt-3 pb-2">
+          <div class="w-9 h-1 rounded-full" style="background:rgba(255,255,255,.15)"></div>
+        </div>
+
+        <template x-if="activeService !== null">
+          <div class="px-5 pb-5">
+
+            <!-- ── Sheet Header ── -->
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                  :style="`background:${services[activeService].bg};border:1px solid ${services[activeService].borderColor}`">
+                  <i :class="services[activeService].icon" class="text-2xl"
+                    :style="`color:${services[activeService].iconColor}`"></i>
+                </div>
+                <div>
+                  <h3 class="text-white font-black text-base leading-tight"
+                    x-text="services[activeService].title"></h3>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block"
+                    :style="`background:${services[activeService].badgeBg};color:${services[activeService].badgeColor}`"
+                    x-text="services[activeService].badge"></span>
+                </div>
+              </div>
+              <button @click="closeService()"
+                class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                style="background:rgba(255,255,255,.07);color:#6b7280">
+                <i class="fa-solid fa-xmark text-sm"></i>
+              </button>
+            </div>
+
+            <!-- ── Description ── -->
+            <p class="text-gray-300 text-xs leading-relaxed mb-4"
+              x-text="services[activeService].desc"></p>
+
+            <!-- ── Features Grid ── -->
+            <div class="grid grid-cols-2 gap-2.5 mb-5">
+              <template x-for="f in services[activeService].features">
+                <div class="flex items-center gap-2 text-xs text-gray-300">
+                  <i class="fa-solid fa-circle-check flex-shrink-0 text-xs"
+                    :style="`color:${services[activeService].iconColor}`"></i>
+                  <span x-text="f"></span>
+                </div>
+              </template>
+            </div>
+
+            <!-- ── Price Box ── -->
+            <div class="rounded-2xl p-4 mb-3 flex items-center justify-between"
+              :style="`background:${services[activeService].bg};border:1px solid ${services[activeService].borderColor}`">
+              <div>
+                <p class="text-gray-500 text-[10px] mb-0.5">يبدأ من</p>
+                <p class="font-black text-2xl" :style="`color:${services[activeService].priceColor}`">
+                  <span x-text="services[activeService].price"></span>
+                  <span class="text-sm font-normal text-gray-400" x-text="services[activeService].period"></span>
+                </p>
+              </div>
+              <button @click="closeService(); goChat()"
+                class="btn-app px-5 py-3 rounded-xl text-xs font-black flex items-center gap-1.5"
+                style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617;
+                       box-shadow:0 0 16px rgba(0,225,255,.4);">
+                <span class="font-black">M</span> احجز مع محمد
+              </button>
+            </div>
+
+            <!-- ── WhatsApp CTA ── -->
+            <a :href="`https://wa.me/971581026759?text=${encodeURIComponent('مرحباً، أريد الاستفسار عن خدمة ' + services[activeService].title)}`"
+              target="_blank"
+              class="btn-app w-full py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+              style="background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.4);color:#25d366">
+              <i class="fa-brands fa-whatsapp text-base"></i>
+              تواصل مباشرة عبر واتساب
+            </a>
+
+          </div>
+        </template>
+      </div>
+    </div>
+    <!-- END SERVICE SHEET -->
+
   </div>
   <!-- END PHONE FRAME -->
 
@@ -997,6 +1163,14 @@ If a client becomes rude or insulting:
 
 Start the conversation with a warm, brief greeting and ask how you can help.`;
 
+    /* ── Demo replies fallback (fires when backend is unavailable) ── */
+    const DEMO_REPLIES = [
+      'أهلاً وسهلاً! 👋\nأنا محمد، مستشار مبيعات SybTech — شرفت بمعرفتك!\nإيه اللي تحتاجه النهارده؟',
+      'عندنا خدمات متكاملة! 🚀\n\n🟢 بوت واتساب — يرد ويحجز تلقائياً 24/7\n🔵 أتمتة AI — وفّر 80% من وقتك\n💻 مواقع ويب احترافية وسريعة\n📱 تطبيقات iOS & Android\n\nأيها يهمك أكثر؟',
+      'ممتاز الاختيار! 💪\n\nالأسعار تبدأ من $199 للمواقع و$299/شهر للبوتات.\n\nممكن آخد اسم حضرتك ورقم تليفون عشان أبعت تفاصيل دقيقة؟',
+      'تمام يا فندم! 🌟\nهبعت بياناتك لفريقنا وهيتواصلوا معاك في أقرب وقت.\n\nفي استفسار تاني؟',
+    ];
+
     /* ── Alpine.js App ── */
     function sybApp() {
       return {
@@ -1008,6 +1182,54 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
         messages: [],
         conversationHistory: [{ role: 'system', content: MOHAMED_PROMPT }],
         toast: { visible: false, hiding: false, msg: '', _timer: null },
+
+        /* ── Service bottom sheet ── */
+        activeService: null,
+        demoStep: 0,
+
+        /* ── Service catalogue data ── */
+        services: {
+          wa: {
+            icon: 'fa-brands fa-whatsapp', iconColor: '#25d366',
+            bg: 'rgba(37,211,102,.1)', borderColor: 'rgba(37,211,102,.3)',
+            title: 'بوت واتساب الذكي', badge: '⭐ الأكثر طلباً',
+            badgeBg: 'rgba(37,211,102,.2)', badgeColor: '#25d366',
+            desc: 'يرد على عملاءك تلقائياً، يحجز المواعيد، يعرض المنتجات ويتعامل مع طلبات الدعم — 24/7 بدون أي تدخل بشري.',
+            features: ['رد فوري 24/7','متعدد اللغات','تكامل مع CRM','تقارير يومية','إرسال كتالوج','حجز مواعيد تلقائي'],
+            price: '$299', period: '/شهر', priceColor: '#25d366',
+          },
+          ai: {
+            icon: 'fa-solid fa-robot', iconColor: '#00e1ff',
+            bg: 'rgba(0,225,255,.08)', borderColor: 'rgba(0,225,255,.3)',
+            title: 'أتمتة بالذكاء الاصطناعي', badge: '🤖 AI Powered',
+            badgeBg: 'rgba(0,225,255,.2)', badgeColor: '#00e1ff',
+            desc: 'أتمتة كاملة لجميع عمليات أعمالك — من التسويق للمبيعات والدعم. وفّر 80% من وقت فريقك.',
+            features: ['أتمتة حملات التسويق','معالجة بيانات ذكية','تقارير AI تلقائية','توقعات مبيعات','تكامل مع أدواتك','لوحة تحكم مخصصة'],
+            price: '$499', period: '/شهر', priceColor: '#00e1ff',
+          },
+          web: {
+            icon: 'fa-solid fa-code', iconColor: '#bc13fe',
+            bg: 'rgba(188,19,254,.08)', borderColor: 'rgba(188,19,254,.3)',
+            title: 'تطوير المواقع', badge: '💎 Premium',
+            badgeBg: 'rgba(188,19,254,.2)', badgeColor: '#bc13fe',
+            desc: 'مواقع احترافية بأحدث التقنيات React وNext.js — سرعة فائقة، SEO متكامل، تصميم عصري لجميع الأجهزة.',
+            features: ['تصميم UI/UX احترافي','سرعة تحميل فائقة','SEO متكامل','متوافق مع الجوال','لوحة إدارية','دومين وهوستينج'],
+            price: '$199', period: '/مشروع', priceColor: '#bc13fe',
+          },
+          mobile: {
+            icon: 'fa-solid fa-mobile-screen', iconColor: '#ff2cdf',
+            bg: 'rgba(255,44,223,.08)', borderColor: 'rgba(255,44,223,.3)',
+            title: 'تطبيقات موبايل', badge: '🚀 جديد',
+            badgeBg: 'rgba(255,44,223,.2)', badgeColor: '#ff2cdf',
+            desc: 'تطبيقات iOS & Android بـ React Native وFlutter — أداء نيتف حقيقي وتجربة مستخدم استثنائية.',
+            features: ['iOS & Android معاً','أداء نيتف سريع','Push Notifications','نشر على المتجرين','تكامل مع Backend','تحديثات مستمرة'],
+            price: '$899', period: '/مشروع', priceColor: '#ff2cdf',
+          },
+        },
+
+        /* ── Open/close service sheet ── */
+        openService(id) { this.activeService = id; },
+        closeService()  { this.activeService = null; },
 
         quickReplies: [
           'ما هي خدماتكم؟',
@@ -1059,38 +1281,51 @@ Start the conversation with a warm, brief greeting and ask how you can help.`;
           this.sendMessage();
         },
 
-        /* ── Core: call Flask backend /api/chat (same as website widget) ── */
+        /* ── Core: call Flask backend /api/chat ── */
         async _callMohamed() {
           this.isTyping = true;
           this.scrollChat();
 
           try {
+            /* 8-second timeout so demo kicks in quickly if backend is down */
+            const controller = new AbortController();
+            const tid = setTimeout(() => controller.abort(), 8000);
+
             const res = await fetch(CHAT_ENDPOINT, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ messages: this.conversationHistory })
+              body: JSON.stringify({ messages: this.conversationHistory }),
+              signal: controller.signal
             });
+            clearTimeout(tid);
 
             if (!res.ok) throw new Error(`Backend ${res.status}`);
             const data = await res.json();
             if (data.error) throw new Error(data.error);
 
-            /* Backend already strips [LEAD_CAPTURED] & notifies Discord server-side */
+            /* Backend strips [LEAD_CAPTURED] & notifies Discord server-side */
             const reply = data.message;
-
             this.conversationHistory.push({ role: 'assistant', content: reply });
             this.isTyping = false;
             this.messages.push({ from: 'bot', text: reply, time: this._time() });
             this.scrollChat();
 
           } catch (err) {
-            console.error('Mohamed error:', err);
+            /* ── Demo Fallback: pre-scripted Mohamed replies ──────────────
+               Fires when backend is unreachable (static deployment / offline).
+               Rotates through DEMO_REPLIES to simulate a real conversation.
+            ──────────────────────────────────────────────────────────────── */
+            console.warn('Backend unavailable — demo mode:', err.message);
+
+            /* Extra typing delay for realism */
+            await new Promise(r => setTimeout(r, 1000 + Math.random() * 800));
+
+            const reply = DEMO_REPLIES[this.demoStep % DEMO_REPLIES.length];
+            this.demoStep++;
+
+            this.conversationHistory.push({ role: 'assistant', content: reply });
             this.isTyping = false;
-            this.messages.push({
-              from: 'bot',
-              text: 'عذراً، حصل خطأ في الاتصال.\nتأكد إن السيرفر شغّال وجرّب تاني 🙏',
-              time: this._time()
-            });
+            this.messages.push({ from: 'bot', text: reply, time: this._time() });
             this.scrollChat();
           }
         },
