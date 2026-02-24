@@ -1214,8 +1214,8 @@ html:not([lang]) .en-content {
     display: none !important;
 }
 
-/* Arabic glowing effect */
-.ar-content .glitch-text span::before {
+/* Arabic glowing effect (hero Arabic heading) */
+.glitch-text.ar-content span::before {
     content: 'واقع رقمي';
     position: absolute;
     top: 0;
@@ -1226,8 +1226,8 @@ html:not([lang]) .en-content {
     filter: drop-shadow(0 0 10px var(--primary));
 }
 
-/* English glowing effect */
-.en-content .glitch-text span::before {
+/* English glowing effect (hero English heading) */
+.glitch-text.en-content span::before {
     content: 'Digital Reality';
     position: absolute;
     top: 0;
