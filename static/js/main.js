@@ -18,6 +18,16 @@ const translations = {
         hero_desc: 'نحن لا نبني مجرد مواقع، نحن نبني أنظمة ذكية تدير أعمالك وتزيد أرباحك باستخدام أحدث تقنيات الذكاء الاصطناعي.',
         hero_cta: 'ابدأ مشروعك الآن',
 
+        // App Showcase (Index)
+        app_badge: '📱 تطبيقنا الذكي',
+        app_showcase_title: 'جرّب تجربة العميل <br><span style="background:linear-gradient(135deg,#00e1ff,#bc13fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">بنفسك الآن</span>',
+        app_showcase_desc: 'تطبيق ويب متكامل يعرض خدماتنا ويتيح لك التحدث مع <strong style="color:#00e1ff">محمد</strong> — مستشار المبيعات الذكي — مباشرةً وفي الحال.',
+        app_feature1: 'محمد AI — مستشار مبيعات حقيقي يرد فوراً',
+        app_feature2: 'عرض كامل لخدماتنا وأسعارنا',
+        app_feature3: 'تصميم Mobile-First احترافي',
+        app_feature4: 'تواصل مباشر عبر واتساب ولينكدإن',
+        app_launch_btn: '<i class="fa-solid fa-mobile-screen-button"></i> افتح التطبيق كاملاً ←',
+
         // About page
         about_title: 'الـ DNA الخاص بنا',
         about_desc: 'نحن لسنا مجرد وكالة برمجيات تقليدية. <strong>SybTech</strong> هي الجسر الذي يربط بين خيالك والواقع الرقمي.<br><br>انطلقنا من دبي بهدف واحد: القضاء على "الروتين" باستخدام الذكاء الاصطناعي وبناء أنظمة لا تتعطل.',
@@ -128,6 +138,16 @@ const translations = {
         hero_highlight: 'Digital Reality',
         hero_desc: 'We don\'t just build websites, we build intelligent systems that manage your business and increase your profits using the latest AI technologies.',
         hero_cta: 'Start Your Project Now',
+
+        // App Showcase (Index)
+        app_badge: '📱 Our Smart App',
+        app_showcase_title: 'Try the Customer Experience <br><span style="background:linear-gradient(135deg,#00e1ff,#bc13fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Yourself Now</span>',
+        app_showcase_desc: 'An integrated web app that showcases our services and lets you chat with <strong style="color:#00e1ff">Mohammed</strong> — the AI sales consultant — directly and instantly.',
+        app_feature1: 'Mohammed AI — a real sales consultant who responds instantly',
+        app_feature2: 'Full display of our services and pricing',
+        app_feature3: 'Professional Mobile-First design',
+        app_feature4: 'Direct contact via WhatsApp and LinkedIn',
+        app_launch_btn: '<i class="fa-solid fa-mobile-screen-button"></i> Open Full App →',
 
         // About page
         about_title: 'Our DNA',

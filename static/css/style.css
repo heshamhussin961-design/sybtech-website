@@ -1505,6 +1505,12 @@ html:not([lang]) .en-content {
     text-shadow: 0 0 15px var(--primary);
 }
 
+/* Ensure nav icons display: الرئيسية=home, الخدمات=briefcase, أعمالنا=folder, تواصل=envelope */
+.mobile-bottom-nav .nav-item i {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}
+
 /* =========================================
    iOS SAFE AREAS & PWA ENHANCEMENTS
    ========================================= */
@@ -1824,13 +1830,15 @@ button,
     font-size: .95rem;
 }
 
-/* ── Phone mockup side ── */
+/* ── Phone mockup side (شكل الموبايل القديم — إطار داكن + توهج أزرق) ── */
 .app-phone-wrap {
     flex-shrink: 0;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 280px;
+    min-height: 520px;
 }
 
 .phone-glow-ring {
@@ -1841,40 +1849,47 @@ button,
 
 .ring-1 {
     width: 340px; height: 340px;
-    border: 1px solid rgba(0,225,255,.12);
+    border: 1px solid rgba(0,225,255,.25);
     animation: ringPulse 4s ease-in-out infinite;
+    box-shadow: 0 0 40px rgba(0,225,255,.15);
 }
 
 .ring-2 {
     width: 480px; height: 480px;
-    border: 1px solid rgba(188,19,254,.08);
+    border: 1px solid rgba(188,19,254,.15);
     animation: ringPulse 4s ease-in-out infinite .6s;
+    box-shadow: 0 0 60px rgba(188,19,254,.1);
 }
 
 @keyframes ringPulse {
-    0%,100% { transform: scale(1);   opacity: .6; }
+    0%,100% { transform: scale(1);   opacity: .7; }
     50%      { transform: scale(1.05); opacity: 1; }
 }
 
+/* إطار الموبايل — لون أزرق داكن + حدود وتوهج أزرق واضح */
 .app-phone-frame {
     position: relative;
     width: 260px;
-    background: #020617;
+    min-height: 500px;
+    background: #0a1628;
     border-radius: 36px;
-    border: 2px solid rgba(255,255,255,.08);
+    border: 2px solid rgba(0,225,255,.35);
     box-shadow:
-        0 0 0 6px rgba(255,255,255,.04),
-        0 0 50px rgba(0,225,255,.18),
-        0 0 100px rgba(188,19,254,.10),
-        0 30px 60px rgba(0,0,0,.7);
+        0 0 0 1px rgba(0,225,255,.2),
+        0 0 20px rgba(0,225,255,.4),
+        0 0 50px rgba(0,225,255,.25),
+        0 0 80px rgba(188,19,254,.12),
+        0 30px 60px rgba(0,0,0,.7),
+        inset 0 0 60px rgba(0,225,255,.03);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    z-index: 2;
 }
 
 .phone-top-bar {
     height: 28px;
-    background: #020617;
+    background: #0a1628;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1901,7 +1916,7 @@ button,
 
 .phone-bottom-bar {
     height: 28px;
-    background: #020617;
+    background: #0a1628;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1935,6 +1950,9 @@ button,
     .app-showcase-text  { text-align: center; }
     .ring-1 { width: 260px; height: 260px; }
     .ring-2 { width: 360px; height: 360px; }
+    /* شكل الموبايل يبقى ظاهر على الموبايل */
+    .app-phone-wrap { min-width: 240px; min-height: 460px; }
+    .app-phone-frame { box-shadow: 0 0 25px rgba(0,225,255,.45), 0 0 60px rgba(0,225,255,.2), 0 0 60px rgba(188,19,254,.1), 0 20px 40px rgba(0,0,0,.6); }
 }
 
 /* =========================================

@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SybTech App</title>
 
+  <!-- Font Awesome 6 — يُحمّل أولاً حتى تظهر كل الأيقونات (شريط سفلي، كروت، أزرار) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" crossorigin="anonymous" />
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -36,14 +39,24 @@
   <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <!-- Font Awesome 6 Free (via jsDelivr — same CDN as Alpine) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" />
-
   <!-- Cairo Font -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { font-family: 'Cairo', sans-serif; box-sizing: border-box; }
+
+    /* ── إصلاح كل أيقونات Font Awesome: لا ترث خط القاهرة، تستخدم خط الأيقونات ── */
+    i[class*="fa-"],
+    .fa-solid, .fa-regular, .fa-brands {
+      font-family: "Font Awesome 6 Free" !important;
+      font-weight: 900 !important;
+      display: inline-block;
+    }
+    .fa-regular { font-weight: 400 !important; }
+    .fa-brands {
+      font-family: "Font Awesome 6 Brands" !important;
+      font-weight: 400 !important;
+    }
 
     /* ── Starfield ── */
     body { background: #010410; }
@@ -729,7 +742,7 @@
                 <span class="text-gray-500">An interactive mobile web app showcasing SybTech services with Mohamed AI sales bot powered by GPT-4o-mini.</span>
               </p>
               <div class="flex gap-2">
-                <a href="/app" target="_blank" class="btn-app flex-1 text-center py-2 rounded-xl text-[10px] font-black" style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617">
+                <a href="sybtech_app.html" target="_blank" class="btn-app flex-1 text-center py-2 rounded-xl text-[10px] font-black" style="background:linear-gradient(135deg,#00e1ff,#bc13fe);color:#020617">
                   <i class="fa-solid fa-mobile-screen-button ml-1"></i> فتح التطبيق
                 </a>
                 <a href="/works" target="_blank" class="btn-app px-3 py-2 rounded-xl text-[10px] font-bold text-syb-cyan glass-card">

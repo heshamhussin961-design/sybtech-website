@@ -74,31 +74,29 @@
         </div>
     </header>
 
-    </header>
-
     <!-- ════════════════════════════════════════
-         Mobile App Showcase Section
+         Mobile App Showcase Section (شكل الموبايل + iframe التطبيق)
     ════════════════════════════════════════ -->
     <section class="app-showcase-section" id="app-demo">
       <div class="app-showcase-inner">
 
         <!-- Left: text & features -->
         <div class="app-showcase-text">
-          <span class="app-badge">📱 تطبيقنا الذكي</span>
-          <h2 class="app-showcase-title">
+          <span class="app-badge" data-i18n="app_badge">📱 تطبيقنا الذكي</span>
+          <h2 class="app-showcase-title" data-i18n="app_showcase_title">
             جرّب تجربة العميل <br>
             <span style="background:linear-gradient(135deg,#00e1ff,#bc13fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">بنفسك الآن</span>
           </h2>
-          <p class="app-showcase-desc">
+          <p class="app-showcase-desc" data-i18n="app_showcase_desc">
             تطبيق ويب متكامل يعرض خدماتنا ويتيح لك التحدث مع <strong style="color:#00e1ff">محمد</strong> — مستشار المبيعات الذكي — مباشرةً وفي الحال.
           </p>
           <ul class="app-features-list">
-            <li><i class="fa-solid fa-circle-check" style="color:#00e1ff"></i> محمد AI — مستشار مبيعات حقيقي يرد فوراً</li>
-            <li><i class="fa-solid fa-circle-check" style="color:#bc13fe"></i> عرض كامل لخدماتنا وأسعارنا</li>
-            <li><i class="fa-solid fa-circle-check" style="color:#ff2cdf"></i> تصميم Mobile-First احترافي</li>
-            <li><i class="fa-solid fa-circle-check" style="color:#25d366"></i> تواصل مباشر عبر واتساب ولينكدإن</li>
+            <li><i class="fa-solid fa-circle-check" style="color:#00e1ff"></i> <span data-i18n="app_feature1">محمد AI — مستشار مبيعات حقيقي يرد فوراً</span></li>
+            <li><i class="fa-solid fa-circle-check" style="color:#bc13fe"></i> <span data-i18n="app_feature2">عرض كامل لخدماتنا وأسعارنا</span></li>
+            <li><i class="fa-solid fa-circle-check" style="color:#ff2cdf"></i> <span data-i18n="app_feature3">تصميم Mobile-First احترافي</span></li>
+            <li><i class="fa-solid fa-circle-check" style="color:#25d366"></i> <span data-i18n="app_feature4">تواصل مباشر عبر واتساب ولينكدإن</span></li>
           </ul>
-          <a href="/app" target="_blank" class="btn-glow app-launch-btn">
+          <a href="sybtech_app.html" target="_blank" class="btn-glow app-launch-btn" data-i18n="app_launch_btn">
             <i class="fa-solid fa-mobile-screen-button"></i>
             افتح التطبيق كاملاً ←
           </a>
@@ -117,7 +115,7 @@
             </div>
             <!-- Live iframe -->
             <iframe
-              src="/app"
+              src="sybtech_app.html"
               title="SybTech Mobile App"
               class="app-phone-iframe"
               loading="lazy"
