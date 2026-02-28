@@ -26,7 +26,8 @@
 
 <body>
 
-    <div class="background-glow"></div>
+    <!-- 3D Background Canvas -->
+    <canvas id="bg3d"></canvas>
 
     <nav class="navbar">
         <div class="logo">
@@ -78,57 +79,151 @@
          Mobile App Showcase Section (شكل الموبايل + iframe التطبيق)
     ════════════════════════════════════════ -->
     <section class="app-showcase-section" id="app-demo">
-      <div class="app-showcase-inner">
+        <div class="app-showcase-inner">
 
-        <!-- Left: text & features -->
-        <div class="app-showcase-text">
-          <span class="app-badge" data-i18n="app_badge">📱 تطبيقنا الذكي</span>
-          <h2 class="app-showcase-title" data-i18n="app_showcase_title">
-            جرّب تجربة العميل <br>
-            <span style="background:linear-gradient(135deg,#00e1ff,#bc13fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">بنفسك الآن</span>
-          </h2>
-          <p class="app-showcase-desc" data-i18n="app_showcase_desc">
-            تطبيق ويب متكامل يعرض خدماتنا ويتيح لك التحدث مع <strong style="color:#00e1ff">محمد</strong> — مستشار المبيعات الذكي — مباشرةً وفي الحال.
-          </p>
-          <ul class="app-features-list">
-            <li><i class="fa-solid fa-circle-check" style="color:#00e1ff"></i> <span data-i18n="app_feature1">محمد AI — مستشار مبيعات حقيقي يرد فوراً</span></li>
-            <li><i class="fa-solid fa-circle-check" style="color:#bc13fe"></i> <span data-i18n="app_feature2">عرض كامل لخدماتنا وأسعارنا</span></li>
-            <li><i class="fa-solid fa-circle-check" style="color:#ff2cdf"></i> <span data-i18n="app_feature3">تصميم Mobile-First احترافي</span></li>
-            <li><i class="fa-solid fa-circle-check" style="color:#25d366"></i> <span data-i18n="app_feature4">تواصل مباشر عبر واتساب ولينكدإن</span></li>
-          </ul>
-          <a href="sybtech_app.html" target="_blank" class="btn-glow app-launch-btn" data-i18n="app_launch_btn">
-            <i class="fa-solid fa-mobile-screen-button"></i>
-            افتح التطبيق كاملاً ←
-          </a>
-        </div>
-
-        <!-- Right: phone mockup with live iframe -->
-        <div class="app-phone-wrap">
-          <!-- Glow rings behind phone -->
-          <div class="phone-glow-ring ring-1"></div>
-          <div class="phone-glow-ring ring-2"></div>
-
-          <div class="app-phone-frame">
-            <!-- Phone top bar -->
-            <div class="phone-top-bar">
-              <div class="phone-speaker"></div>
+            <!-- Left: text & features -->
+            <div class="app-showcase-text">
+                <span class="app-badge" data-i18n="app_badge">📱 تطبيقنا الذكي</span>
+                <h2 class="app-showcase-title" data-i18n="app_showcase_title">
+                    جرّب تجربة العميل <br>
+                    <span
+                        style="background:linear-gradient(135deg,#00e1ff,#bc13fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">بنفسك
+                        الآن</span>
+                </h2>
+                <p class="app-showcase-desc" data-i18n="app_showcase_desc">
+                    تطبيق ويب متكامل يعرض خدماتنا ويتيح لك التحدث مع <strong style="color:#00e1ff">محمد</strong> —
+                    مستشار المبيعات الذكي — مباشرةً وفي الحال.
+                </p>
+                <ul class="app-features-list">
+                    <li><i class="fa-solid fa-circle-check" style="color:#00e1ff"></i> <span
+                            data-i18n="app_feature1">محمد AI — مستشار مبيعات حقيقي يرد فوراً</span></li>
+                    <li><i class="fa-solid fa-circle-check" style="color:#bc13fe"></i> <span
+                            data-i18n="app_feature2">عرض كامل لخدماتنا وأسعارنا</span></li>
+                    <li><i class="fa-solid fa-circle-check" style="color:#ff2cdf"></i> <span
+                            data-i18n="app_feature3">تصميم Mobile-First احترافي</span></li>
+                    <li><i class="fa-solid fa-circle-check" style="color:#25d366"></i> <span
+                            data-i18n="app_feature4">تواصل مباشر عبر واتساب ولينكدإن</span></li>
+                </ul>
+                <a href="sybtech_app.html" target="_blank" class="btn-glow app-launch-btn" data-i18n="app_launch_btn">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    افتح التطبيق كاملاً ←
+                </a>
             </div>
-            <!-- Live iframe -->
-            <iframe
-              src="sybtech_app.html"
-              title="SybTech Mobile App"
-              class="app-phone-iframe"
-              loading="lazy"
-              scrolling="no"
-            ></iframe>
-            <!-- Phone bottom bar -->
-            <div class="phone-bottom-bar">
-              <div class="phone-home-pill"></div>
-            </div>
-          </div>
-        </div>
 
-      </div>
+            <!-- Right: phone mockup with live iframe -->
+            <div class="app-phone-wrap">
+                <!-- Glow rings behind phone -->
+                <div class="phone-glow-ring ring-1"></div>
+                <div class="phone-glow-ring ring-2"></div>
+
+                <div class="app-phone-frame">
+                    <!-- Phone top bar -->
+                    <div class="phone-top-bar">
+                        <div class="phone-speaker"></div>
+                    </div>
+                    <!-- Live iframe -->
+                    <iframe src="sybtech_app.html" title="SybTech Mobile App" class="app-phone-iframe" loading="lazy"
+                        scrolling="no"></iframe>
+                    <!-- Phone bottom bar -->
+                    <div class="phone-bottom-bar">
+                        <div class="phone-home-pill"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         Performance & 3D Optimization Section
+    ════════════════════════════════════════ -->
+    <section class="perf-section" id="performance">
+        <div class="perf-inner">
+
+            <!-- Section Header -->
+            <div class="perf-header">
+                <span class="perf-badge" data-i18n="perf_badge">⚡ أداء بلا حدود</span>
+                <h2 class="perf-title" data-i18n="perf_title">
+                    عناصر 3D <span class="perf-highlight">بدون أي بطء</span>
+                </h2>
+                <p class="perf-subtitle" data-i18n="perf_subtitle">
+                    وجود عناصر 3D لا يعني إن الموقع هيكون تقيل أو بطيء — الفكرة كلها في طريقة التنفيذ. إحنا معتمدين على
+                    تقنيات Optimization متقدمة.
+                </p>
+            </div>
+
+            <!-- Optimization Cards Grid -->
+            <div class="perf-grid">
+
+                <!-- Card 1: Image Sequence -->
+                <div class="perf-card">
+                    <div class="perf-card-icon">
+                        <i class="fa-solid fa-images"></i>
+                    </div>
+                    <h3 data-i18n="perf_card1_title">Image Sequence</h3>
+                    <p data-i18n="perf_card1_desc">استخدام Image Sequence بدل الفيديو في بعض الأجزاء لتقليل الحجم وزيادة
+                        السرعة.</p>
+                </div>
+
+                <!-- Card 2: WebP & Web Formats -->
+                <div class="perf-card">
+                    <div class="perf-card-icon icon-purple">
+                        <i class="fa-solid fa-file-image"></i>
+                    </div>
+                    <h3 data-i18n="perf_card2_title">WebP & Web Formats</h3>
+                    <p data-i18n="perf_card2_desc">صيغ خفيفة زي WebP للعناصر الثقيلة — نفس الجودة بحجم أقل بكتير.</p>
+                </div>
+
+                <!-- Card 3: Lazy Loading -->
+                <div class="perf-card">
+                    <div class="perf-card-icon icon-green">
+                        <i class="fa-solid fa-spinner"></i>
+                    </div>
+                    <h3 data-i18n="perf_card3_title">Lazy Loading</h3>
+                    <p data-i18n="perf_card3_desc">تحميل العناصر الثقيلة بس لما المستخدم يوصلها — مفيش تحميل زائد.</p>
+                </div>
+
+                <!-- Card 4: Progressive Loading -->
+                <div class="perf-card">
+                    <div class="perf-card-icon icon-pink">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 data-i18n="perf_card4_title">Progressive Loading</h3>
+                    <p data-i18n="perf_card4_desc">تحميل تدريجي للمحتوى — الصفحة بتظهر فوراً والباقي بيكمّل في الخلفية.
+                    </p>
+                </div>
+
+                <!-- Card 5: Fast Servers -->
+                <div class="perf-card">
+                    <div class="perf-card-icon icon-orange">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <h3 data-i18n="perf_card5_title">High-Performance Servers</h3>
+                    <p data-i18n="perf_card5_desc">الموقع مستضاف على سيرفرات سريعة ومهيأة للأداء العالي والاستجابة
+                        الفورية.</p>
+                </div>
+
+                <!-- Card 6: 3D Compression -->
+                <div class="perf-card">
+                    <div class="perf-card-icon icon-cyan">
+                        <i class="fa-solid fa-compress"></i>
+                    </div>
+                    <h3 data-i18n="perf_card6_title">3D Compression</h3>
+                    <p data-i18n="perf_card6_desc">كل عناصر الـ 3D مضغوطة ومحسنة قبل الاستخدام — أقل حجم وأفضل أداء.</p>
+                </div>
+
+            </div>
+
+            <!-- Bottom Performance Meter -->
+            <div class="perf-meter-wrap">
+                <div class="perf-meter-label" data-i18n="perf_meter_label">مستوى الأداء</div>
+                <div class="perf-meter-bar">
+                    <div class="perf-meter-fill"></div>
+                </div>
+                <div class="perf-meter-value">99%</div>
+            </div>
+
+        </div>
     </section>
 
     <footer class="footer-cyber">
@@ -197,6 +292,12 @@
     </nav>
 
     <script src="static/js/main.js"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- 3D Background -->
+    <script src="static/js/three-bg.js"></script>
+    <!-- 3D Tilt Effects -->
+    <script src="static/js/tilt3d.js"></script>
     <!-- SybTech AI Sales Chat Widget -->
     <script src="static/js/sybtech-chat.js"></script>
 </body>

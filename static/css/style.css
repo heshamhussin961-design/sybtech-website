@@ -40,8 +40,38 @@ body {
 }
 
 /* =========================================
-   2. الخلفية الفضائية المتحركة (Space Background)
+   2. 3D Canvas Background + Tilt System
    ========================================= */
+#bg3d {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* ── Tilt Glow Overlay ── */
+.tilt-glow-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+    border-radius: inherit;
+}
+
+/* ── 3D Global Perspective ── */
+body {
+    perspective: 1200px;
+}
+
+/* Fallback if Three.js fails - keep old stars */
 .background-glow {
     position: fixed;
     top: 0;
@@ -52,7 +82,6 @@ body {
     background: radial-gradient(circle at 50% 50%, rgba(20, 20, 50, 0.4), transparent 80%);
 }
 
-/* شبكة النجوم المتحركة */
 .background-glow::after {
     content: "";
     position: absolute;
@@ -207,20 +236,21 @@ body {
    ========================================= */
 .hero {
     min-height: 90vh;
-    /* يغطي الشاشة */
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 10%;
     position: relative;
-    overflow: hidden;
-    /* عشان لو فيه أنيميشن طلع برا */
+    overflow: visible;
+    transform-style: preserve-3d;
+    perspective: 1200px;
 }
 
-/* تنسيق النصوص */
 .hero-content {
     max-width: 650px;
     z-index: 2;
+    transform: translateZ(40px);
+    transform-style: preserve-3d;
 }
 
 .hero h1 {
@@ -301,9 +331,8 @@ body {
 .btn-glow:hover {
     background: var(--primary);
     color: #000;
-    box-shadow: 0 0 50px var(--primary);
-    /* توهج قوي جداً عند اللمس */
-    transform: translateY(-5px);
+    box-shadow: 0 0 50px var(--primary), 0 15px 30px rgba(0, 225, 255, 0.3);
+    transform: translateY(-5px) translateZ(15px) scale(1.05);
 }
 
 /* =========================================
@@ -1758,7 +1787,9 @@ button,
 .app-showcase-section::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
     opacity: .5;
@@ -1773,7 +1804,9 @@ button,
 }
 
 /* ── Text side ── */
-.app-showcase-text { flex: 1; }
+.app-showcase-text {
+    flex: 1;
+}
 
 .app-badge {
     display: inline-block;
@@ -1781,8 +1814,8 @@ button,
     border-radius: 20px;
     font-size: .75rem;
     font-weight: 700;
-    background: rgba(0,225,255,.1);
-    border: 1px solid rgba(0,225,255,.3);
+    background: rgba(0, 225, 255, .1);
+    border: 1px solid rgba(0, 225, 255, .3);
     color: var(--primary);
     margin-bottom: 20px;
     letter-spacing: .5px;
@@ -1821,7 +1854,10 @@ button,
     font-weight: 600;
 }
 
-.app-features-list i { font-size: 1rem; flex-shrink: 0; }
+.app-features-list i {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
 
 .app-launch-btn {
     display: inline-flex;
@@ -1848,22 +1884,33 @@ button,
 }
 
 .ring-1 {
-    width: 340px; height: 340px;
-    border: 1px solid rgba(0,225,255,.25);
+    width: 340px;
+    height: 340px;
+    border: 1px solid rgba(0, 225, 255, .25);
     animation: ringPulse 4s ease-in-out infinite;
-    box-shadow: 0 0 40px rgba(0,225,255,.15);
+    box-shadow: 0 0 40px rgba(0, 225, 255, .15);
 }
 
 .ring-2 {
-    width: 480px; height: 480px;
-    border: 1px solid rgba(188,19,254,.15);
+    width: 480px;
+    height: 480px;
+    border: 1px solid rgba(188, 19, 254, .15);
     animation: ringPulse 4s ease-in-out infinite .6s;
-    box-shadow: 0 0 60px rgba(188,19,254,.1);
+    box-shadow: 0 0 60px rgba(188, 19, 254, .1);
 }
 
 @keyframes ringPulse {
-    0%,100% { transform: scale(1);   opacity: .7; }
-    50%      { transform: scale(1.05); opacity: 1; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .7;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
 }
 
 /* إطار الموبايل — لون أزرق داكن + حدود وتوهج أزرق واضح */
@@ -1873,14 +1920,14 @@ button,
     min-height: 500px;
     background: #0a1628;
     border-radius: 36px;
-    border: 2px solid rgba(0,225,255,.35);
+    border: 2px solid rgba(0, 225, 255, .35);
     box-shadow:
-        0 0 0 1px rgba(0,225,255,.2),
-        0 0 20px rgba(0,225,255,.4),
-        0 0 50px rgba(0,225,255,.25),
-        0 0 80px rgba(188,19,254,.12),
-        0 30px 60px rgba(0,0,0,.7),
-        inset 0 0 60px rgba(0,225,255,.03);
+        0 0 0 1px rgba(0, 225, 255, .2),
+        0 0 20px rgba(0, 225, 255, .4),
+        0 0 50px rgba(0, 225, 255, .25),
+        0 0 80px rgba(188, 19, 254, .12),
+        0 30px 60px rgba(0, 0, 0, .7),
+        inset 0 0 60px rgba(0, 225, 255, .03);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -1898,8 +1945,9 @@ button,
 }
 
 .phone-speaker {
-    width: 60px; height: 5px;
-    background: rgba(255,255,255,.12);
+    width: 60px;
+    height: 5px;
+    background: rgba(255, 255, 255, .12);
     border-radius: 10px;
 }
 
@@ -1909,9 +1957,12 @@ button,
     border: none;
     display: block;
     transform-origin: top left;
-    transform: scale(0.6667);         /* 260/390 = 0.6667 */
-    margin-bottom: -213px;            /* 640*(1-0.6667) = 213px offset */
-    pointer-events: none;             /* decorative only — click "افتح التطبيق" */
+    transform: scale(0.6667);
+    /* 260/390 = 0.6667 */
+    margin-bottom: -213px;
+    /* 640*(1-0.6667) = 213px offset */
+    pointer-events: none;
+    /* decorative only — click "افتح التطبيق" */
 }
 
 .phone-bottom-bar {
@@ -1925,36 +1976,443 @@ button,
 }
 
 .phone-home-pill {
-    width: 80px; height: 5px;
-    background: rgba(255,255,255,.18);
+    width: 80px;
+    height: 5px;
+    background: rgba(255, 255, 255, .18);
     border-radius: 10px;
 }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-    .app-showcase-inner { gap: 50px; }
-    .app-showcase-title { font-size: 2rem; }
+    .app-showcase-inner {
+        gap: 50px;
+    }
+
+    .app-showcase-title {
+        font-size: 2rem;
+    }
 }
 
 @media (max-width: 768px) {
-    .app-showcase-section { padding: 70px 5%; }
+    .app-showcase-section {
+        padding: 70px 5%;
+    }
+
     .app-showcase-inner {
         flex-direction: column-reverse;
         align-items: center;
         gap: 50px;
     }
-    .app-showcase-title { font-size: 1.7rem; text-align: center; }
-    .app-showcase-desc  { text-align: center; margin: 0 auto 28px; }
-    .app-features-list  { align-items: flex-start; }
-    .app-badge, .app-launch-btn { display: flex; justify-content: center; }
-    .app-showcase-text  { text-align: center; }
-    .ring-1 { width: 260px; height: 260px; }
-    .ring-2 { width: 360px; height: 360px; }
+
+    .app-showcase-title {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .app-showcase-desc {
+        text-align: center;
+        margin: 0 auto 28px;
+    }
+
+    .app-features-list {
+        align-items: flex-start;
+    }
+
+    .app-badge,
+    .app-launch-btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .app-showcase-text {
+        text-align: center;
+    }
+
+    .ring-1 {
+        width: 260px;
+        height: 260px;
+    }
+
+    .ring-2 {
+        width: 360px;
+        height: 360px;
+    }
+
     /* شكل الموبايل يبقى ظاهر على الموبايل */
-    .app-phone-wrap { min-width: 240px; min-height: 460px; }
-    .app-phone-frame { box-shadow: 0 0 25px rgba(0,225,255,.45), 0 0 60px rgba(0,225,255,.2), 0 0 60px rgba(188,19,254,.1), 0 20px 40px rgba(0,0,0,.6); }
+    .app-phone-wrap {
+        min-width: 240px;
+        min-height: 460px;
+    }
+
+    .app-phone-frame {
+        box-shadow: 0 0 25px rgba(0, 225, 255, .45), 0 0 60px rgba(0, 225, 255, .2), 0 0 60px rgba(188, 19, 254, .1), 0 20px 40px rgba(0, 0, 0, .6);
+    }
 }
 
 /* =========================================
    Works Page - Global Sync
    ========================================= */
+
+/* =========================================
+   Performance & 3D Optimization Section
+   ========================================= */
+.perf-section {
+    padding: 100px 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+.perf-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 225, 255, 0.3), transparent);
+}
+
+.perf-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.perf-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.perf-badge {
+    display: inline-block;
+    background: rgba(0, 225, 255, 0.08);
+    color: var(--primary);
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: 1px solid rgba(0, 225, 255, 0.2);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.perf-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 18px;
+    line-height: 1.2;
+}
+
+.perf-highlight {
+    background: linear-gradient(135deg, #00e1ff, #bc13fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.perf-subtitle {
+    font-size: 1.15rem;
+    color: #94a3b8;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Cards Grid */
+.perf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+/* Single Card */
+.perf-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 35px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+}
+
+.perf-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    transition: 0.6s;
+    z-index: 1;
+}
+
+.perf-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    border-color: rgba(0, 225, 255, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(0, 225, 255, 0.1);
+}
+
+.perf-card:hover::before {
+    left: 100%;
+}
+
+/* Card Icon */
+.perf-card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    background: rgba(0, 225, 255, 0.08);
+    border: 1px solid rgba(0, 225, 255, 0.15);
+    transition: 0.4s;
+}
+
+.perf-card-icon i {
+    font-size: 28px;
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px rgba(0, 225, 255, 0.4));
+    transition: 0.4s;
+}
+
+.perf-card:hover .perf-card-icon {
+    background: rgba(0, 225, 255, 0.15);
+    border-color: rgba(0, 225, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 225, 255, 0.15);
+}
+
+.perf-card:hover .perf-card-icon i {
+    transform: scale(1.15);
+}
+
+/* Icon Color Variants */
+.perf-card-icon.icon-purple {
+    background: rgba(188, 19, 254, 0.08);
+    border-color: rgba(188, 19, 254, 0.15);
+}
+
+.perf-card-icon.icon-purple i {
+    color: #bc13fe;
+    filter: drop-shadow(0 0 8px rgba(188, 19, 254, 0.4));
+}
+
+.perf-card:hover .icon-purple {
+    background: rgba(188, 19, 254, 0.15);
+    border-color: rgba(188, 19, 254, 0.4);
+    box-shadow: 0 0 20px rgba(188, 19, 254, 0.15);
+}
+
+.perf-card-icon.icon-green {
+    background: rgba(0, 255, 136, 0.08);
+    border-color: rgba(0, 255, 136, 0.15);
+}
+
+.perf-card-icon.icon-green i {
+    color: #00ff88;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.4));
+}
+
+.perf-card:hover .icon-green {
+    background: rgba(0, 255, 136, 0.15);
+    border-color: rgba(0, 255, 136, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+}
+
+.perf-card-icon.icon-pink {
+    background: rgba(255, 44, 223, 0.08);
+    border-color: rgba(255, 44, 223, 0.15);
+}
+
+.perf-card-icon.icon-pink i {
+    color: #ff2cdf;
+    filter: drop-shadow(0 0 8px rgba(255, 44, 223, 0.4));
+}
+
+.perf-card:hover .icon-pink {
+    background: rgba(255, 44, 223, 0.15);
+    border-color: rgba(255, 44, 223, 0.4);
+    box-shadow: 0 0 20px rgba(255, 44, 223, 0.15);
+}
+
+.perf-card-icon.icon-orange {
+    background: rgba(255, 165, 0, 0.08);
+    border-color: rgba(255, 165, 0, 0.15);
+}
+
+.perf-card-icon.icon-orange i {
+    color: #ffa500;
+    filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.4));
+}
+
+.perf-card:hover .icon-orange {
+    background: rgba(255, 165, 0, 0.15);
+    border-color: rgba(255, 165, 0, 0.4);
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.15);
+}
+
+.perf-card-icon.icon-cyan {
+    background: rgba(0, 225, 255, 0.08);
+    border-color: rgba(0, 225, 255, 0.15);
+}
+
+.perf-card-icon.icon-cyan i {
+    color: #00e1ff;
+    filter: drop-shadow(0 0 8px rgba(0, 225, 255, 0.4));
+}
+
+.perf-card:hover .icon-cyan {
+    background: rgba(0, 225, 255, 0.15);
+    border-color: rgba(0, 225, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 225, 255, 0.15);
+}
+
+/* Card Text */
+.perf-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.perf-card p {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+}
+
+/* Performance Meter */
+.perf-meter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px 30px;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+}
+
+.perf-meter-label {
+    font-weight: 700;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.perf-meter-bar {
+    flex: 1;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.perf-meter-fill {
+    width: 99%;
+    height: 100%;
+    background: linear-gradient(90deg, #00e1ff, #bc13fe, #ff2cdf);
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 225, 255, 0.4);
+    animation: meterGlow 2s ease-in-out infinite alternate;
+    position: relative;
+}
+
+.perf-meter-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: meterShine 3s linear infinite;
+}
+
+@keyframes meterGlow {
+    0% {
+        box-shadow: 0 0 8px rgba(0, 225, 255, 0.3);
+    }
+
+    100% {
+        box-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
+    }
+}
+
+@keyframes meterShine {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.perf-meter-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00e1ff, #bc13fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: nowrap;
+}
+
+/* Responsive: Perf Section */
+@media (max-width: 1024px) {
+    .perf-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .perf-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .perf-section {
+        padding: 70px 5%;
+    }
+
+    .perf-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .perf-title {
+        font-size: 1.8rem;
+    }
+
+    .perf-subtitle {
+        font-size: 1rem;
+    }
+
+    .perf-meter-wrap {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .perf-meter-bar {
+        width: 100%;
+    }
+}
